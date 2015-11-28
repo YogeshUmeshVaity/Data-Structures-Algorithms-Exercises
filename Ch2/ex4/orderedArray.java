@@ -48,21 +48,16 @@ class OrdArray
    //-----------------------------------------------------------
    public void insert(long value)    // put element into array
       {
-//      int j;
-//      for(j=0; j<nElems; j++)        // find where it goes
-//         if(a[j] > value)            // (linear search)
-//            break;
       int j = find(value);
-      if(j != nElems) {
-        System.out.println("Item already exits");
-        return;
-      }
-      j = curIn + 1; // insert position
+      if(j == nElems) { // if item not found
+        j = curIn + 1; // insert position
       for(int k=nElems; k>j; k--)    // move bigger ones up
          a[k] = a[k-1];
       a[j] = value;                  // insert it
       nElems++;                      // increment size
-      }  // end insert()
+      }  
+      } // end insert()
+      
    //-----------------------------------------------------------
    public boolean delete(long value)
       {
