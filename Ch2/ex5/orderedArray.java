@@ -18,6 +18,32 @@ class OrdArray
    public int size()
       { return nElems; }
    //-----------------------------------------------------------
+   
+   public void merge(long[] a, long[] b) {
+      // determin bigger array
+      int aLength = a.length;
+      int bLength = b.length;
+      int minimumLength = 0;
+      int i = 0;
+      for(; (i < aLength) && (i < bLength); i++) {
+          copySmaller(a[i], b[i]);
+      }
+      if(aLength > bLength) {
+        for(int j = i; j < aLength; j++) {
+          insert(a[j]);
+        }
+      } else {
+        for(int j = i; j < bLength; j++) {
+          insert(b[j]);
+        }
+      }
+   }
+   
+   private void copySmaller(long a, long b) {
+      if(a <= b) insert(a);
+        else insert(b);
+   }
+   
    public int find(long searchKey)
       {
       int lowerBound = 0;
@@ -47,6 +73,9 @@ class OrdArray
    //-----------------------------------------------------------
    public void insert(long value)    // put element into array
       {
+      if(nElems == 0) { // take care of 0 index = 0 bug
+        a[0] = value;
+      }
       int j = find(value);
       if(j == nElems) { // if item not found
         j = curIn + 1; // insert position
@@ -88,32 +117,9 @@ class OrderedApp
       int maxSize = 100;             // array size
       OrdArray arr;                  // reference to array
       arr = new OrdArray(maxSize);   // create the array
-
-      arr.insert(77);                // insert 10 items
-      arr.insert(99);
-      arr.insert(44);
-      arr.insert(55);
-      arr.insert(22);
-      arr.insert(88);
-      arr.insert(11);
-      arr.insert(00);
-      arr.insert(66);
-      arr.insert(33);
-
-      int searchKey = 55;            // search for item
-      if( arr.find(searchKey) != arr.size() )
-         System.out.println("Found " + searchKey);
-      else
-         System.out.println("Can't find " + searchKey);
-
-      arr.display();                 // display items
-
-      arr.delete(00);                // delete 3 items
-      arr.delete(55);
-      arr.delete(99);
-
-      arr.display();                 // display items again
-      arr.insert(34);
+      long[] a = { 2, 4, 6, 8, 10, 12 };
+      long[] b = { 1, 3, 5, 7 };
+      arr.merge(a, b);
       arr.display();
       }  // end main()
    }  // end class OrderedApp

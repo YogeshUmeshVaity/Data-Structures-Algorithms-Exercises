@@ -30,7 +30,6 @@ class OrdArray
          if(a[curIn]==searchKey)
             return curIn;              // found it
          else if(lowerBound > upperBound) {
-            System.out.println("curIn : " + curIn);
             // curIn + 1 at this point is where the insertion
             // should be made.
             return nElems; // can't find it
