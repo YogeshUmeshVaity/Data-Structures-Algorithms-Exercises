@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ex1;
+package com.company;
 
 import java.lang.Override;
 
 class ArrayBub {
     private long[] a;                 // ref to array a
     private int nElems;               // number of data items
-//--------------------------------------------------------------
-    @Override
+    //--------------------------------------------------------------
     public ArrayBub(int max) // constructor
     {
         a = new long[max];                 // create the array
@@ -37,7 +36,8 @@ class ArrayBub {
 //--------------------------------------------------------------
 
     public void bubbleSort() {
-        int out, in, out2, in2;
+        int out, in, out2;
+        int in2 = nElems - 3;
 
         for (out = nElems - 1; out > 1; out--) // outer loop (backward)
         {
@@ -72,7 +72,7 @@ class ArrayBub {
 }  // end class ArrayBub
 ////////////////////////////////////////////////////////////////
 
-class Ex1 {
+class Main {
 
     public static void main(String[] args) {
         int maxSize = 100;            // array size
@@ -86,7 +86,7 @@ class Ex1 {
         arr.insert(22);
         arr.insert(88);
         arr.insert(11);
-        arr.insert(00);
+        arr.insert(0);
         arr.insert(66);
         arr.insert(33);
 
