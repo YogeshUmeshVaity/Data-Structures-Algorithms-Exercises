@@ -36,29 +36,36 @@ class ArrayBub {
 //--------------------------------------------------------------
 
     public void bubbleSort() {
-        int out, in, out2;
+        int out, in;
         int in2 = nElems - 3;
+        int out2 = 0;
+        int comparisons = 0;
 
-        for (out = nElems - 1; out > 1; out--) // outer loop (backward)
+        for (out = nElems - 1; out > out2; out--) // outer loop (backward)
         {
-            for(out2 = in2; out2 < out; out2++)
+            for (in = out2; in < out; in++) // inner loop (forward)
             {
-                for (in = 0; in < out; in++) // inner loop (forward)
+                if (a[in] > a[in + 1]) // out of order?
                 {
-                    if (a[in] > a[in + 1]) // out of order?
-                    {
-                        swap(in, in + 1);          // swap them
-                    }
+                    swap(in, in + 1);          // swap them
                 }
+                comparisons++;
+            }
+            for(; out2 < out; out2++)
+            {
+
                 for (in2 = in - 1; in2 > out2; in2--)
                 {
                     if (a[in2] < a[in2 - 1])
                     {
                         swap(in2, in2 - 1);
                     }
+                    comparisons++;
                 }
+                break;
             }
         }
+        System.out.println("Comparisons = " + comparisons);
 
     }  // end bubbleSort()
 //--------------------------------------------------------------
@@ -79,16 +86,16 @@ class Main {
         ArrayBub arr;                 // reference to array
         arr = new ArrayBub(maxSize);  // create the array
 
-        arr.insert(77);               // insert 10 items
-        arr.insert(99);
-        arr.insert(44);
-        arr.insert(55);
-        arr.insert(22);
-        arr.insert(88);
-        arr.insert(11);
+        arr.insert(5);               // insert 10 items
+        arr.insert(1);
+        arr.insert(4);
+        arr.insert(3);
         arr.insert(0);
-        arr.insert(66);
-        arr.insert(33);
+        arr.insert(2);
+        arr.insert(7);
+        arr.insert(6);
+        arr.insert(9);
+        arr.insert(8);
 
         arr.display();                // display items
 
