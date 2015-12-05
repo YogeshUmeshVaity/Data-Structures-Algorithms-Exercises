@@ -14,13 +14,12 @@ class ArrayIns
         insertionSort();
         int temp = 0;
         for(int out = 0; out < nElems; out++) {
-            for(int in = out + 1; in < nElems; in++) {
-                if(a[out] == a[in]) {
-                    a[in] = a[in+1];
-                    //nElems--;
-                }
+            if(a[out] != a[out + 1]) {
+                a[temp] = a[out];
+                temp++;
             }
         }
+        nElems = temp;
     }
 
     //--------------------------------------------------------------
