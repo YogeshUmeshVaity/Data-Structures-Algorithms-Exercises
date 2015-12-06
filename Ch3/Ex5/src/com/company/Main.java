@@ -28,6 +28,13 @@ class ArrayIns
         System.out.println("");
     }
     //--------------------------------------------------------------
+
+    /**
+     * For inversely sorted array it requires 63 copies and 45 comparisons which is N*(N - 1)/2
+     * So for it does show O(N*N) efficiency
+     * For almost-sorted data, it requires much less number of copies and comparisons when
+     * compared to selection sort and bubble sort.
+     */
     public void insertionSort()
     {
         int in, out;
@@ -53,6 +60,7 @@ class ArrayIns
         }  // end for
         System.out.println("Total Copies : " + copies);
         System.out.println("Total Comparisons : " + comparisons);
+
     }  // end insertionSort()
 //--------------------------------------------------------------
 }  // end class ArrayIns
@@ -65,16 +73,16 @@ class Main
         ArrayIns arr;                 // reference to array
         arr = new ArrayIns(maxSize);  // create the array
 
-        arr.insert(77);               // insert 10 items
-        arr.insert(99);
-        arr.insert(44);
-        arr.insert(55);
-        arr.insert(22);
-        arr.insert(88);
-        arr.insert(11);
-        arr.insert(00);
-        arr.insert(66);
-        arr.insert(33);
+        arr.insert(9);               // insert 10 items
+        arr.insert(0);
+        arr.insert(1);
+        arr.insert(2);
+        arr.insert(3);
+        arr.insert(4);
+        arr.insert(5);
+        arr.insert(6);
+        arr.insert(7);
+        arr.insert(8);
 
         arr.display();                // display items
 
