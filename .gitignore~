@@ -20,5 +20,3 @@ hs_err_pid*
 *.iml
 out
 gen
-/.idea/workspace.xml
-
