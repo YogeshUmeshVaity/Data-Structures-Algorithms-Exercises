@@ -57,8 +57,6 @@ class Deque
             }
         }
 
-
-
         return temp;
     }
 
