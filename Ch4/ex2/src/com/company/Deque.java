@@ -1,7 +1,6 @@
 package com.company;
 
-class Deque
-{
+public class Deque {
     private int maxSize;
     private long[] queArray;
     private int left;
@@ -17,7 +16,7 @@ class Deque
     }
 
     public void insertRight(long j) {
-        if(right == maxSize-1)
+        if (right == maxSize - 1)
             right = -1;
         queArray[++right] = j;
         nItems++;
@@ -27,49 +26,35 @@ class Deque
         //if(nItems == 1) left = right;
         long temp = queArray[right--];
         nItems--;
-        if(right == -1) {
-            if(nItems > 0)
-                right = maxSize - 1;
-            else
-                right = left;
-        }
+        if (right == -1)
+            right = maxSize - 1;
         return temp;
     }
 
     public void insertLeft(long j) {
-        if(left == 0) left = maxSize - 1;
+        if (left == 0)
+            left = maxSize - 1;
         queArray[left--] = j;
-        if(right == left) left++; // prevent left overwriting right
         nItems++;
     }
 
     public long removeLeft() {
-        if(nItems == 1) right = left;
-        long temp = queArray[left++];
-        if(left == right) left--;
+        long temp = queArray[++left];
         nItems--;
-        //if(nItems == 0) left = right;
-        if(left == maxSize) {
-            if(nItems > 0) {
-                left = 0;
-            } else {
-                left = right;
-            }
+        if (left == maxSize - 1) {
+            left = -1;
         }
-
         return temp;
     }
 
 
-
     public boolean isEmpty() {
-        return (nItems==0);
+        return (nItems == 0);
     }
 
     public boolean isFull() {
-        return (nItems==maxSize);
+        return (nItems == maxSize);
     }
-
 
 }
 
@@ -87,27 +72,7 @@ class Main {
         System.out.println(deque.removeLeft());
         System.out.println(deque.removeLeft());
 
-        deque.insertLeft(10);
+        deque.insertLeft(12);
         System.out.println(deque.removeLeft());
-//
-//
-//        deque.insertLeft(10);
-//        System.out.println(deque.removeLeft());
-//
-//        deque.insertRight(10);
-//        System.out.println(deque.removeLeft());
-
-
-
-//        System.out.println(deque.removeLeft());
-//        System.out.println(deque.removeRight());
-//
-//        deque.insertLeft(10);
-//        System.out.println(deque.removeLeft());
-//        System.out.println(deque.removeLeft());
-//        deque.insertLeft(10);
-//        System.out.println(deque.removeLeft());
-
-
     }
 }
