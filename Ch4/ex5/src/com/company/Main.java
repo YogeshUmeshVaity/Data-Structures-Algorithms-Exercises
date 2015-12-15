@@ -2,7 +2,11 @@ package com.company;
 
 import sun.rmi.runtime.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +30,8 @@ class StoreController {
         Checker checker = findSmallestChecker();
         if(!checker.isFull()) {
             checker.checkIn(customerId);
+        } else {
+            System.out.println("All the checkers are full, please try after sometime.");
         }
     }
 
@@ -50,6 +56,21 @@ class StoreController {
         Checker checker = checkersList.get(randomChecker);
         if(!checker.isEmpty()) {
             checker.checkOut();
+        } else {
+            System.out.println("Checker" + randomChecker + " is empty");
+        }
+    }
+
+    /**
+     * Displays all the queues in all the checkers
+     */
+    public void showStoreStatus() {
+        Iterator<Checker> it = checkersList.iterator();
+        int counter = 1;
+        for(Checker checker : checkersList) {
+            System.out.print("Checker" + counter++ + " ");
+            checker.showQueue();
+            System.out.println();
         }
     }
 }
@@ -57,20 +78,33 @@ class StoreController {
 public class Main {
 
     public static void main(String[] args) {
-	    Checker checker1 = new Checker(new Queue(15));
+	    StoreController sc = new StoreController();
+        while (true) {
+            System.out.println("Enter customerId to check in, " +
+                    "o for check out, s for status, enter to exit : ");
+            String input = getInput();
+            // if the entered string is a customerId, checkIn
+            if(input.matches("\\d+")) {
+                sc.checkInCustomer(Integer.valueOf(input));
+            } else if(input.equals("o")) {
+                sc.checkOutCustomer();
+            } else if(input.equals("s")) {
+                sc.showStoreStatus();
+            } else if(input.equals("")) {
+                System.exit(0);
+            }
+        }
+    }
 
-        checker1.checkIn(33);
-        checker1.checkIn(66);
-        checker1.checkIn(99);
-        checker1.checkIn(30);
-        checker1.checkIn(60);
-        checker1.checkIn(90);
-
-        checker1.checkOut();
-        checker1.checkOut();
-        checker1.checkOut();
-
-        checker1.showQueue();
-
+    public static String getInput() {
+        InputStreamReader is = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(is);
+        String s;
+        try {
+            s = br.readLine();
+        } catch (IOException io) {
+            throw new RuntimeException(io);
+        }
+        return s;
     }
 }

@@ -46,7 +46,7 @@ class Queue
         int tempFront = front;
         for(int i = 0; i < nItems; i++) {
             if(tempFront == maxSize) tempFront = 0;
-            System.out.println(queArray[tempFront++]);
+            System.out.print(queArray[tempFront++] + " ");
         }
     }
 
