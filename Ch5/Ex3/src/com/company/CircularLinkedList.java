@@ -44,7 +44,14 @@ public class CircularLinkedList {
 
     /**
      * Steps through all the elements in the list. One element at a time.
+     * Makes the current point to the next element each time it is called.
+     * @return Returns current element on each call.
      */
+    public Link step() {
+        Link temp = current;
+        current = current.next;
+        return temp;
+    }
 
     /**
      * Returns the String representation of the CircularLinkedList
