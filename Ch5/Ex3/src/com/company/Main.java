@@ -15,6 +15,11 @@ public class Main {
 
         System.out.println(list);
 
+
+        System.out.println(list.delete(999));
+        System.out.println(list);
+
+
 //        System.out.println("find(333): " + list.find(333));
 //        System.out.println("find(123): " + list.find(123));
 //        System.out.println("find(999): " + list.find(999));
