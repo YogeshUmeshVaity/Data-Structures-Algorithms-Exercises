@@ -20,60 +20,29 @@ package com.company;
  */
 public class CircularLinkedList {
 
-    private Link first;
+    private Link current;
 
     /** Creates empty CircularLinkedList */
     public CircularLinkedList() {
-        first = null;
+        current = null;
     }
 
     /** Inserts element to the list */
     public void insert(long d) {
         Link newLink = new Link(d);
-        if(first == null) {
-            first = newLink;
+        // if list empty
+        if(current == null) {
+            current = newLink;
+            newLink.next = current;
         } else {
-            newLink.next = first;
-            first = newLink;
+            newLink.next = current.next;
+            current.next = newLink;
         }
     }
 
     /**
-     * Searches for the item to be deleted.
-     * @return Returns true if the item is found in the list and deleted,
-     * otherwise false.
+     * Steps through all the elements in the list. One element at a time.
      */
-    public boolean delete(long d) {
-        Link current = first;
-        Link previous = null;
-        while (current != null && current.dData != d) {
-            previous = current;
-            current = current.next;
-        }
-        // Item cannot be found or list empty
-        if(current == null) return false;
-        // If first item in the list
-        if(current == first) {
-            first = current.next;
-        } else {
-            previous.next = current.next;
-        }
-        return true;
-    }
-
-    /**
-     * Searches for a link with given long value.
-     * @return Returns the link with given value or null if value not found.
-     */
-    public Link find(long d) {
-        Link current = first;
-        while (current != null && current.dData != d) {
-            current = current.next;
-        }
-        // If list empty or item not found till the end
-        if(current == null) return null;
-        return current;
-    }
 
     /**
      * Returns the String representation of the CircularLinkedList
@@ -81,13 +50,16 @@ public class CircularLinkedList {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("[ ");
-        Link current = first;
-        while (current != null) {
-            s.append(current);
-            current = current.next;
-            if(current != null) s.append(", ");
+        s.append(current);
+        if(current.next != current) s.append(", ");
+        Link temp = current.next;
+        while (temp != current) {
+            s.append(temp);
+            temp = temp.next;
+            if(temp != current) s.append(", ");
         }
         s.append(" ]");
         return s.toString();
     }
+
 }
