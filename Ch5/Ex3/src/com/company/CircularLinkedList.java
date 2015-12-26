@@ -59,21 +59,28 @@ public class CircularLinkedList {
      * otherwise false.
      */
     public boolean delete(long d) {
-        //list empty
-        if(current == null) return false;
-        Link temp = current.next;
-        Link previous = temp;
-        while (temp != current && temp.dData != d) {
-            previous = temp;
-            temp = temp.next;
+        // If list is empty
+        if(current == null) {
+            throw new RuntimeException("Cannot delete element, list is empty");
         }
         // If only one item in the list
         if(current == current.next && current.dData == d) {
             current = null;
-        } else {
-            previous.next = temp.next;
+            return true;
         }
+        Link temp = step();
+        Link previous = null;
+        Link currentElement = temp;
+        while (temp != temp.next) {
+            previous = currentElement;
+            if(currentElement.dData == d) {
+                break;
+            }
+            currentElement = step();
+        }
+        previous.next = currentElement.next;
         return true;
+
     }
 
     /**
