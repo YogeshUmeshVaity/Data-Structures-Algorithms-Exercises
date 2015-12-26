@@ -38,6 +38,8 @@ public class CircularLinkedList {
             newLink.next = current.next;
             current.next = newLink;
         }
+        // make current point to newly inserted link
+        current = newLink;
     }
 
     /**
