@@ -77,6 +77,8 @@ public class CircularLinkedList {
             temp = temp.next;
         }
         previous.next = temp.next;
+        // Set the next element as current after deletion
+        current = temp.next;
         return true;
     }
 
