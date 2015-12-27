@@ -60,27 +60,44 @@ public class CircularLinkedList {
      */
     public boolean delete(long d) {
         // If list is empty
-        if(current == null) {
-            throw new RuntimeException("Cannot delete element, list is empty");
-        }
-        // If only one item in the list
+        if(current == null) return false;
+        // If there is only one item in the list
         if(current == current.next && current.dData == d) {
             current = null;
             return true;
         }
-        Link temp = step();
-        Link previous = null;
-        Link currentElement = temp;
-        while (temp != temp.next) {
-            previous = currentElement;
-            if(currentElement.dData == d) {
-                break;
+        Link temp = current.next;
+        Link previous = current;
+        while (temp.dData != d) {
+            // Item not found
+            if(temp == current) {
+                return false;
             }
-            currentElement = step();
+            previous = temp;
+            temp = temp.next;
         }
-        previous.next = currentElement.next;
+        previous.next = temp.next;
+        // Set the next element as current after deletion
+        current = temp.next;
         return true;
+    }
 
+    /**
+     * Searches for a link with given long value.
+     * @return Returns the link with given value or null if value not found.
+     */
+    public Link find(long d) {
+        // If list empty
+        if(current == null) return null;
+        Link temp = current.next;
+        while (temp.dData != d) {
+            // Item not found
+            if(temp == current) {
+                return null;
+            }
+            temp = temp.next;
+        }
+        return temp;
     }
 
     /**
@@ -88,6 +105,8 @@ public class CircularLinkedList {
      */
     @Override
     public String toString() {
+        // If list is empty
+        if(current == null) return "[ ]";
         StringBuilder s = new StringBuilder("[ ");
         s.append(current);
         if(current.next != current) s.append(", ");
