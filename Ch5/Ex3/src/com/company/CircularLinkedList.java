@@ -76,9 +76,26 @@ public class CircularLinkedList {
             previous = temp;
             temp = temp.next;
         }
-
         previous.next = temp.next;
         return true;
+    }
+
+    /**
+     * Searches for a link with given long value.
+     * @return Returns the link with given value or null if value not found.
+     */
+    public Link find(long d) {
+        // If list empty
+        if(current == null) return null;
+        Link temp = current.next;
+        while (temp.dData != d) {
+            // Item not found
+            if(temp == current) {
+                return null;
+            }
+            temp = temp.next;
+        }
+        return temp;
     }
 
     @Override
