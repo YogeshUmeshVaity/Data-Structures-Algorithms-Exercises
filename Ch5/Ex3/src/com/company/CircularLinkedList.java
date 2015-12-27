@@ -54,10 +54,37 @@ public class CircularLinkedList {
     }
 
     /**
-     * Returns the String representation of the CircularLinkedList
+     * Searches for the item to be deleted.
+     * @return Returns true if the item is found in the list and deleted,/**
+     * otherwise false. * Returns the String representation of the CircularLinkedList
      */
+    public boolean delete(long d) {
+        // If list is empty
+        if(current == null) return false;
+        // If there is only one item in the list
+        if(current == current.next && current.dData == d) {
+            current = null;
+            return true;
+        }
+        Link temp = current.next;
+        Link previous = current;
+        while (temp.dData != d) {
+            // Item not found
+            if(temp == current) {
+                return false;
+            }
+            previous = temp;
+            temp = temp.next;
+        }
+
+        previous.next = temp.next;
+        return true;
+    }
+
     @Override
     public String toString() {
+        // If list is empty
+        if(current == null) return "[ ]";
         StringBuilder s = new StringBuilder("[ ");
         s.append(current);
         if(current.next != current) s.append(", ");
