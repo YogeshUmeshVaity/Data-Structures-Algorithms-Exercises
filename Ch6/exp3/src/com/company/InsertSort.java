@@ -86,7 +86,5 @@ class InsertSort {
         t2 = System.currentTimeMillis();
         // results : 2827, 2639, 2546 (max 100000 items)
         System.out.println("Time in milliseconds : " + (t2 - t1));
-
-
     }  // end main()
 }  // end class InsertSortApp
