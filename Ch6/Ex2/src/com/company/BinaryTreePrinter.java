@@ -27,7 +27,6 @@ package com.company;
  * display is no larger than it needs to be. What is the relationship of the number
  * of lines (five in the picture here) to the line width?
  */
-//--------X-----------X-------X-----X---X---X---X--X-X-X-X-X-X-X-XXXXXXXXXXXXXXXXX
 public class BinaryTreePrinter {
 
     // Holds the characters to be printed
