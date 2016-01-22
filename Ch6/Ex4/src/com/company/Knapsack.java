@@ -8,21 +8,17 @@ import java.util.LinkedList;
 public class Knapsack {
     private int[] weights = {11, 8, 7, 6, 5};
     private LinkedList<Integer> knapsack = new LinkedList<>();
+    private boolean fitted = false;
 
     public void fitItems(int targetWeight, int startingIndex) {
-        knapsack.add(weights[startingIndex]);
-        if(targetWeight == weights[startingIndex]) {
-            return;
-        } else if(targetWeight > weights[startingIndex] && startingIndex < weights.length) {
-            fitItems(targetWeight - weights[startingIndex], startingIndex + 1);
-        } else if(targetWeight < weights[startingIndex] && startingIndex < weights.length) {
-            knapsack.removeLast();
-            if(startingIndex == weights.length - 1) return;
-            fitItems(targetWeight, startingIndex + 1);
-
+        for(int i = startingIndex; i < weights.length && !fitted; i++) {
+            if(targetWeight == weights[i]) {
+                fitted = true;
+                return;
+            } else if(targetWeight > weights[i]) {
+                fitItems(targetWeight - weights[i], i + 1);
+            }
         }
-
-
     }
 
     public void displayFittedItems() {
