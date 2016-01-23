@@ -3,7 +3,7 @@ package com.company;
 import java.util.LinkedList;
 
 /**
- * Created by try on 20/1/16.
+ * Created by try on 20/1/16
  */
 public class Knapsack {
     private int[] weights = {11, 8, 7, 6, 5};
@@ -13,15 +13,26 @@ public class Knapsack {
     public void fitItems(int targetWeight, int startingIndex) {
         for(int i = startingIndex; i < weights.length && !fitted; i++) {
             if(targetWeight == weights[i]) {
+                knapsack.add(weights[i]);
                 fitted = true;
                 return;
             } else if(targetWeight > weights[i]) {
+                knapsack.add(weights[i]);
                 fitItems(targetWeight - weights[i], i + 1);
             }
+            if(i == weights.length - 1 && !fitted) {
+                knapsack.removeLast();
+            }
         }
+        //if(!fitted && !knapsack.isEmpty()) knapsack.clear();
     }
 
     public void displayFittedItems() {
-        System.out.println(knapsack);
+        if(fitted) {
+            System.out.println(knapsack);
+        } else {
+            System.out.println("No solution exists");
+        }
+
     }
 }
