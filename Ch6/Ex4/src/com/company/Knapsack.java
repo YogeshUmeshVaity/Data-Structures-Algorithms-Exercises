@@ -20,11 +20,10 @@ public class Knapsack {
                 knapsack.add(weights[i]);
                 fitItems(targetWeight - weights[i], i + 1);
             }
-            if(i == weights.length - 1 && !fitted) {
+            if((i == weights.length - 1 && !fitted)) {
                 knapsack.removeLast();
             }
         }
-        //if(!fitted && !knapsack.isEmpty()) knapsack.clear();
     }
 
     public void displayFittedItems() {
