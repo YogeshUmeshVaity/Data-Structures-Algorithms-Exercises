@@ -16,34 +16,60 @@ public class Knapsack {
     // Flag for letting the function know whether the items are fitted.
     private boolean fitted = false;
 
-    public void fitItems(int targetWeight, int startingIndex) {
-        for(int i = startingIndex; i < weights.length && !fitted; i++) {
-            if(i == weights.length) {
+    /**
+     * Collects the fitted items in knapsack if the solution exists.
+     * Call showResult() for result after calling this.
+     * @param targetWeight is the maximum weight the knapsack can handle.
+     */
+    public void fitItems(int targetWeight) {
+        recurseFitItems(targetWeight, 0);
+    }
+
+    /**
+     * Collects the fitted items in knapsack if the solution exists.
+     * @param targetWeight is the maximum weight the knapsack can handle.
+     * @param startingIndex is the index of weights array where the search should begin.
+     */
+    private void recurseFitItems(int targetWeight, int startingIndex) {
+        for (int i = startingIndex; i < weights.length && !fitted; i++) {
+            if (i == weights.length) {
                 return;
             }
-            if(targetWeight == weights[i]) {
+            // Base case
+            if (targetWeight == weights[i]) {
                 fitted = true;
                 knapsack[knapsackIndex++] = weights[i];
                 return;
-            } else if(targetWeight > weights[i]) {
-                fitItems(targetWeight - weights[i], i + 1);
-                if(fitted) knapsack[knapsackIndex++] = weights[i];
-            } else if(targetWeight < weights[i]) {
-                fitItems(targetWeight, i + 1);
+            } else if (targetWeight > weights[i]) {
+                // Recursion
+                recurseFitItems(targetWeight - weights[i], i + 1);
+                if (fitted) knapsack[knapsackIndex++] = weights[i];
+            } else if (targetWeight < weights[i]) {
+                // Recursion
+                recurseFitItems(targetWeight, i + 1);
             }
         }
     }
 
-    public void displayFittedItems() {
-        if(fitted) {
-            for(int i = knapsackIndex - 1; i >= 0; i--) {
-                System.out.print(knapsack[i]);
-                if(i != 0) {
-                    System.out.print(", ");
-                }
+    /**
+     * Prints fitted items on the console.
+     */
+    private void printFittedItems() {
+        for (int i = knapsackIndex - 1; i >= 0; i--) {
+            System.out.print(knapsack[i]);
+            if (i != 0) {
+                System.out.print(", ");
             }
-        } else {
-            System.out.println("No solution exists");
         }
+    }
+
+    /**
+     * Displays fitted items on the console if the solution exits.
+     * Otherwise a message that says "No solution exists".
+     */
+    public void showResult() {
+        if (fitted) printFittedItems();
+        else System.out.println("No solution exists");
+
     }
 }
