@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         Knapsack knapsack = new Knapsack();
-        knapsack.fitItems(20, 0);
+        knapsack.fitItems(21, 0);
         knapsack.displayFittedItems();
     }
 }

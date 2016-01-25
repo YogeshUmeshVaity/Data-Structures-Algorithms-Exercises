@@ -11,18 +11,20 @@ public class Knapsack {
     private boolean fitted = false;
 
     public void fitItems(int targetWeight, int startingIndex) {
-        if(startingIndex == weights.length) {
-            return;
-        }
-        if(targetWeight == weights[startingIndex]) {
-            fitted = true;
-            knapsack.add(weights[startingIndex]);
-            return;
-        } else if(targetWeight > weights[startingIndex]) {
-            fitItems(targetWeight - weights[startingIndex], startingIndex + 1);
-            if(fitted) knapsack.add(weights[startingIndex]);
-        } else if(targetWeight < weights[startingIndex]) {
-            fitItems(targetWeight, startingIndex + 1);
+        for(int i = startingIndex; i < weights.length && !fitted; i++) {
+            if(i == weights.length) {
+                return;
+            }
+            if(targetWeight == weights[i]) {
+                fitted = true;
+                knapsack.add(weights[i]);
+                return;
+            } else if(targetWeight > weights[i]) {
+                fitItems(targetWeight - weights[i], i + 1);
+                if(fitted) knapsack.add(weights[i]);
+            } else if(targetWeight < weights[i]) {
+                fitItems(targetWeight, i + 1);
+            }
         }
     }
 
