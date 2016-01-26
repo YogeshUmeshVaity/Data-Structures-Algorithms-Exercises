@@ -13,7 +13,7 @@ public class Knapsack {
     // Index of knapsack.
     private int knapsackIndex = 0;
 
-    // Flag for letting the function know whether the items are fitted.
+    // Flag for letting the outer method know whether the items are fitted.
     private boolean fitted = false;
 
     /**
