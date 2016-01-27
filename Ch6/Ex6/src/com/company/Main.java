@@ -3,6 +3,8 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        TeamMaker teamMaker = new TeamMaker();
+        teamMaker.showTeams(5, 3, false);
+        //teamMaker.displayTeam();
     }
 }
