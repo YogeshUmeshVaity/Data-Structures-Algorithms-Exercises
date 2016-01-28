@@ -30,10 +30,11 @@ public class TeamMaker {
 
         // You displayTeam team only in right calls, if you are at a valid node
         // and adding one member will complete the team.
-        if(!leftCall) {
-                sequenceLeavingLeft.add(group[group.length - groupSize]);
+        if (!leftCall) {
+            if (sequenceLeavingLeft.size() == 3) {
                 System.out.print(sequenceLeavingLeft);
                 sequenceLeavingLeft.removeLast();
+            }
         }
 
         // Recursion
