@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>ShellSort.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(116,113,94); }
+.s1 { color: rgb(187,201,216); }
+.s2 { color: rgb(174,129,255); }
+.s3 { color: rgb(249,250,244); }
+.s4 { color: rgb(204,120,50); }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(230,218,116); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ShellSort.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/** 
+ * Created by try on 12/2/16. 
+ */</span><span class="s1"> 
+</span><span class="s2">public class </span><span class="s1">ShellSort </span><span class="s3">{</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">main</span><span class="s3">(</span><span class="s1">String</span><span class="s3">[] </span><span class="s1">args</span><span class="s3">) {</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">maxSize </span><span class="s4">= 10</span><span class="s2">;             </span><span class="s5">// array size</span><span class="s1"> 
+        ArraySh arr</span><span class="s2">;</span><span class="s1"> 
+        arr </span><span class="s4">= </span><span class="s2">new </span><span class="s1">ArraySh</span><span class="s3">(</span><span class="s1">maxSize</span><span class="s3">)</span><span class="s2">;   </span><span class="s5">// create the array</span><span class="s1"> 
+ 
+        </span><span class="s2">for </span><span class="s3">(</span><span class="s2">int </span><span class="s1">j </span><span class="s4">= 0</span><span class="s2">; </span><span class="s1">j </span><span class="s4">&lt; </span><span class="s1">maxSize</span><span class="s2">; </span><span class="s1">j</span><span class="s4">++</span><span class="s3">)  </span><span class="s5">// fill array with</span><span class="s1"> 
+        </span><span class="s3">{                          </span><span class="s5">// random numbers</span><span class="s1"> 
+            </span><span class="s2">long </span><span class="s1">n </span><span class="s4">= </span><span class="s3">(</span><span class="s2">int</span><span class="s3">) (</span><span class="s1">java</span><span class="s4">.</span><span class="s1">lang</span><span class="s4">.</span><span class="s1">Math</span><span class="s4">.</span><span class="s1">random</span><span class="s3">() </span><span class="s4">* 99</span><span class="s3">)</span><span class="s2">;</span><span class="s1"> 
+            arr</span><span class="s4">.</span><span class="s1">insert</span><span class="s3">(</span><span class="s1">n</span><span class="s3">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s3">}</span><span class="s1"> 
+        arr</span><span class="s4">.</span><span class="s1">display</span><span class="s3">()</span><span class="s2">;                </span><span class="s5">// display unsorted array</span><span class="s1"> 
+        arr</span><span class="s4">.</span><span class="s1">shellSort</span><span class="s3">()</span><span class="s2">;              </span><span class="s5">// shell sort the array</span><span class="s1"> 
+        arr</span><span class="s4">.</span><span class="s1">display</span><span class="s3">()</span><span class="s2">;                </span><span class="s5">// display sorted array</span><span class="s1"> 
+    </span><span class="s3">}  </span><span class="s5">// end main()</span><span class="s1"> 
+</span><span class="s3">}</span><span class="s1"> 
+ 
+ 
+</span><span class="s2">class </span><span class="s1">ArraySh </span><span class="s3">{</span><span class="s1"> 
+    </span><span class="s2">private long</span><span class="s3">[] </span><span class="s1">theArray</span><span class="s2">;          </span><span class="s5">// ref to array theArray</span><span class="s1"> 
+    </span><span class="s2">private int </span><span class="s1">nElems</span><span class="s2">;               </span><span class="s5">// number of data items</span><span class="s1"> 
+ 
+    </span><span class="s5">//--------------------------------------------------------------</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">ArraySh</span><span class="s3">(</span><span class="s2">int </span><span class="s1">max</span><span class="s3">)           </span><span class="s5">// constructor</span><span class="s1"> 
+    </span><span class="s3">{</span><span class="s1"> 
+        theArray </span><span class="s4">= </span><span class="s2">new long</span><span class="s3">[</span><span class="s1">max</span><span class="s3">]</span><span class="s2">;      </span><span class="s5">// create the array</span><span class="s1"> 
+        nElems </span><span class="s4">= 0</span><span class="s2">;                    </span><span class="s5">// no items yet</span><span class="s1"> 
+    </span><span class="s3">}</span><span class="s1"> 
+ 
+    </span><span class="s5">//--------------------------------------------------------------</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">insert</span><span class="s3">(</span><span class="s2">long </span><span class="s1">value</span><span class="s3">)    </span><span class="s5">// put element into array</span><span class="s1"> 
+    </span><span class="s3">{</span><span class="s1"> 
+        theArray</span><span class="s3">[</span><span class="s1">nElems</span><span class="s3">] </span><span class="s4">= </span><span class="s1">value</span><span class="s2">;      </span><span class="s5">// insert it</span><span class="s1"> 
+        nElems</span><span class="s4">++</span><span class="s2">;                      </span><span class="s5">// increment size</span><span class="s1"> 
+    </span><span class="s3">}</span><span class="s1"> 
+ 
+    </span><span class="s5">//--------------------------------------------------------------</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">display</span><span class="s3">()             </span><span class="s5">// displays array contents</span><span class="s1"> 
+    </span><span class="s3">{</span><span class="s1"> 
+        System</span><span class="s4">.</span><span class="s1">out</span><span class="s4">.</span><span class="s1">print</span><span class="s3">(</span><span class="s6">&quot;A=&quot;</span><span class="s3">)</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">for </span><span class="s3">(</span><span class="s2">int </span><span class="s1">j </span><span class="s4">= 0</span><span class="s2">; </span><span class="s1">j </span><span class="s4">&lt; </span><span class="s1">nElems</span><span class="s2">; </span><span class="s1">j</span><span class="s4">++</span><span class="s3">)    </span><span class="s5">// for each element,</span><span class="s1"> 
+            System</span><span class="s4">.</span><span class="s1">out</span><span class="s4">.</span><span class="s1">print</span><span class="s3">(</span><span class="s1">theArray</span><span class="s3">[</span><span class="s1">j</span><span class="s3">] </span><span class="s4">+ </span><span class="s6">&quot; &quot;</span><span class="s3">)</span><span class="s2">;  </span><span class="s5">// display it</span><span class="s1"> 
+        System</span><span class="s4">.</span><span class="s1">out</span><span class="s4">.</span><span class="s1">println</span><span class="s3">(</span><span class="s6">&quot;&quot;</span><span class="s3">)</span><span class="s2">;</span><span class="s1"> 
+    </span><span class="s3">}</span><span class="s1"> 
+ 
+    </span><span class="s5">//--------------------------------------------------------------</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">shellSort</span><span class="s3">() {</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">inner</span><span class="s2">, </span><span class="s1">outer</span><span class="s2">;</span><span class="s1"> 
+        </span><span class="s2">long </span><span class="s1">temp</span><span class="s2">;</span><span class="s1"> 
+ 
+        </span><span class="s2">int </span><span class="s1">h </span><span class="s4">= 1</span><span class="s2">;                     </span><span class="s5">// find initial value of h</span><span class="s1"> 
+        </span><span class="s2">while </span><span class="s3">(</span><span class="s1">h </span><span class="s4">&lt;= </span><span class="s1">nElems </span><span class="s4">/ 3</span><span class="s3">)</span><span class="s1"> 
+            h </span><span class="s4">= </span><span class="s1">h </span><span class="s4">* 3 + 1</span><span class="s2">;                </span><span class="s5">// (1, 4, 13, 40, 121, ...)</span><span class="s1"> 
+ 
+        </span><span class="s2">while </span><span class="s3">(</span><span class="s1">h </span><span class="s4">&gt; 0</span><span class="s3">)                     </span><span class="s5">// decreasing h, until h=1</span><span class="s1"> 
+        </span><span class="s3">{</span><span class="s1"> 
+            </span><span class="s5">// h-sort the file</span><span class="s1"> 
+            </span><span class="s2">for </span><span class="s3">(</span><span class="s1">outer </span><span class="s4">= </span><span class="s1">h</span><span class="s2">; </span><span class="s1">outer </span><span class="s4">&lt; </span><span class="s1">nElems</span><span class="s2">; </span><span class="s1">outer</span><span class="s4">++</span><span class="s3">) {</span><span class="s1"> 
+                temp </span><span class="s4">= </span><span class="s1">theArray</span><span class="s3">[</span><span class="s1">outer</span><span class="s3">]</span><span class="s2">;</span><span class="s1"> 
+                inner </span><span class="s4">= </span><span class="s1">outer</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s5">// one subpass (eg 0, 4, 8)</span><span class="s1"> 
+                </span><span class="s2">while </span><span class="s3">(</span><span class="s1">inner </span><span class="s4">&gt; </span><span class="s1">h </span><span class="s4">- 1 &amp;&amp; </span><span class="s1">theArray</span><span class="s3">[</span><span class="s1">inner </span><span class="s4">- </span><span class="s1">h</span><span class="s3">] </span><span class="s4">&gt;= </span><span class="s1">temp</span><span class="s3">) {</span><span class="s1"> 
+                    theArray</span><span class="s3">[</span><span class="s1">inner</span><span class="s3">] </span><span class="s4">= </span><span class="s1">theArray</span><span class="s3">[</span><span class="s1">inner </span><span class="s4">- </span><span class="s1">h</span><span class="s3">]</span><span class="s2">;</span><span class="s1"> 
+                    inner </span><span class="s4">-= </span><span class="s1">h</span><span class="s2">;</span><span class="s1"> 
+                </span><span class="s3">}</span><span class="s1"> 
+                theArray</span><span class="s3">[</span><span class="s1">inner</span><span class="s3">] </span><span class="s4">= </span><span class="s1">temp</span><span class="s2">;</span><span class="s1"> 
+            </span><span class="s3">}  </span><span class="s5">// end for</span><span class="s1"> 
+            h </span><span class="s4">= </span><span class="s3">(</span><span class="s1">h </span><span class="s4">- 1</span><span class="s3">) </span><span class="s4">/ 3</span><span class="s2">;              </span><span class="s5">// decrease h</span><span class="s1"> 
+        </span><span class="s3">}  </span><span class="s5">// end while(h&gt;0)</span><span class="s1"> 
+    </span><span class="s3">}  </span><span class="s5">// end shellSort()</span><span class="s1"> 
+</span><span class="s5">//--------------------------------------------------------------</span><span class="s1"> 
+</span><span class="s3">}  </span><span class="s5">// end class ArraySh</span></pre>
+</body>
+</html>

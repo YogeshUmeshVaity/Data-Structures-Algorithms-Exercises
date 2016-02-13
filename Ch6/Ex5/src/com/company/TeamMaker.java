@@ -40,7 +40,7 @@ public class TeamMaker {
         }
         recurseShowTeams(groupSize - 1, teamSize, validNode);     // Right call
 
-        //You’ll need to role the sequence back up as you return.
+        // You’ll need to role the sequence back up as you return.
         groupMember--;
     }
 }
