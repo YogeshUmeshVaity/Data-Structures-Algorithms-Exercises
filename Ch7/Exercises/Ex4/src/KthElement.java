@@ -39,7 +39,8 @@ class Partition
     //--------------------------------------------------------------
 
     public long findMedian(int leftIndex, int rightIndex, int k) {
-        kthSmallest = k;
+        // Adjust the offset, e.g. 6th smallest element is at index 6 - 1
+        kthSmallest = k - 1;
         return recurseFindMedian(leftIndex, rightIndex);
 
     }
