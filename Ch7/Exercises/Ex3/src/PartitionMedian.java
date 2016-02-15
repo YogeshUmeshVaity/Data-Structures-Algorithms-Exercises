@@ -7,6 +7,8 @@ class Partition
     private long[] theArray;          // ref to array theArray
 
     private int nElems;               // number of data items
+
+    private int middleIndex;
     //--------------------------------------------------------------
     public Partition(int max)          // constructor
     {
@@ -37,20 +39,20 @@ class Partition
     //--------------------------------------------------------------
 
     public long findMedian(int leftIndex, int rightIndex) {
-        int middleIndex = (int)((rightIndex - leftIndex) / 2);
-        return recurseFindMedian(leftIndex, rightIndex, middleIndex);
+        middleIndex = (int)((rightIndex - leftIndex) / 2);
+        return recurseFindMedian(leftIndex, rightIndex);
 
     }
 
-    private long recurseFindMedian(int leftIndex, int rightIndex, int middleIndex) {
+    private long recurseFindMedian(int leftIndex, int rightIndex) {
         int pivotIndex = partitionIt(leftIndex, rightIndex);
         // base case
         if(pivotIndex == middleIndex) {
             return theArray[pivotIndex];
         } else if(pivotIndex > middleIndex) {
-            return recurseFindMedian(leftIndex, pivotIndex, middleIndex);
+            return recurseFindMedian(leftIndex, pivotIndex);
         } else
-            return recurseFindMedian(pivotIndex, rightIndex, middleIndex);
+            return recurseFindMedian(pivotIndex, rightIndex);
     }
 
     public int partitionIt(int left, int right)
