@@ -9,7 +9,7 @@ class ArrayIns
     private long[] a;                 // ref to array a
     private int nElems;               // number of data items
 
-    public float median() {
+    public float getMedian() {
         insertionSort();
         float median = 0;
         int medianIndex = (nElems - 1)/2;
@@ -80,7 +80,7 @@ class Main
         arr.insert(00);
         arr.insert(66);
         arr.insert(33);
-        arr.insert(111);
+        //arr.insert(111);
 
         arr.display();                // display items
 
@@ -88,6 +88,6 @@ class Main
 
         arr.display();                // display them again
 
-        System.out.println("Median = " + arr.median());
+        System.out.println("Median = " + arr.getMedian());
     }  // end main()
 }  // end class InsertSortApp
