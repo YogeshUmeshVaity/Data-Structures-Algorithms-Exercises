@@ -7,8 +7,6 @@ class Partition
     private long[] theArray;          // ref to array theArray
 
     private int nElems;               // number of data items
-
-    private int kthSmallest;
     //--------------------------------------------------------------
     public Partition(int max)          // constructor
     {
@@ -38,22 +36,24 @@ class Partition
     }
     //--------------------------------------------------------------
 
-    public long findMedian(int leftIndex, int rightIndex, int k) {
-        // Adjust the offset, e.g. 6th smallest element is at index 6 - 1
-        kthSmallest = k - 1;
-        return recurseFindMedian(leftIndex, rightIndex);
+    public long findKthSmallest(int leftIndex, int rightIndex, int kthIndex) {
+        // Adjust the offset, e.g. 7 smallest element is at index 7 - 1. Because the array starts with 0.
+        kthIndex = kthIndex - 1;
+        return recurseFindMedian(leftIndex, rightIndex, kthIndex);
 
     }
 
-    private long recurseFindMedian(int leftIndex, int rightIndex) {
+    private long recurseFindMedian(int leftIndex, int rightIndex, int kthIndex) {
         int pivotIndex = partitionIt(leftIndex, rightIndex);
         // base case
-        if(pivotIndex == kthSmallest) {
+        if(pivotIndex == kthIndex) {
             return theArray[pivotIndex];
-        } else if(pivotIndex > kthSmallest) {
-            return recurseFindMedian(leftIndex, pivotIndex);
-        } else
-            return recurseFindMedian(pivotIndex, rightIndex);
+        } else if(pivotIndex > kthIndex) {
+            return recurseFindMedian(leftIndex, pivotIndex - 1, kthIndex);
+        } else {
+            return recurseFindMedian(pivotIndex + 1, rightIndex, kthIndex);
+        }
+
     }
 
     public int partitionIt(int left, int right)
@@ -107,7 +107,7 @@ class PartitionApp
         arr.insert(11);
         arr.display();                // display unsorted array
 
-        System.out.println("Median is : " + arr.findMedian(0, arr.size() - 1, 7));
+        System.out.println("KthSmallest is : " + arr.findKthSmallest(0, arr.size() - 1, 5));
     }  // end main()
 }  // end class PartitionApp
 ////////////////////////////////////////////////////////////////
