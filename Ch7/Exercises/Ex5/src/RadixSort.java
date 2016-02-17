@@ -13,11 +13,12 @@ import java.util.List;
 
 public class RadixSort {
 
-    private long[] input = {492, 239, 124, 111, 278, 159, 987};
+    private long[] input = {49282, 39, 124, 1, 2784, 15923, 6767987};
 
 
     public void sort() {
-        for (int i = 2; i >= 0; i--) {
+        int maxDigits = calculateMaxDigits();
+        for (int i = maxDigits - 1; i >= 0; i--) {
 
             // Initialize 10 groups
             List<LinkedList<Long>> groups = new LinkedList<>();
@@ -28,6 +29,9 @@ public class RadixSort {
             // Disassemble
             for (int j = 0; j < input.length; j++) {
                 String key = String.valueOf(input[j]);
+                while (key.length() != maxDigits) {
+                    key = "0" + key;
+                }
                 char digit = key.charAt(i);
                 int integerDigit = Integer.parseInt(Character.toString(digit));
                 Long currentElement = input[j];
@@ -48,6 +52,19 @@ public class RadixSort {
                 }
             }
         }
+    }
+
+    /**
+     * Calculates and returns maximum digits in a single element of the input array.
+     */
+    private int calculateMaxDigits() {
+        int maxDigits = 0;
+        for(int i = 0; i < input.length; i++) {
+            if(String.valueOf(input[i]).length() > maxDigits) {
+                maxDigits = String.valueOf(input[i]).length();
+            }
+        }
+        return maxDigits;
     }
 
     public void display() {
