@@ -17,13 +17,15 @@ public class RadixSort {
 
 
     public void sort() {
-        List<LinkedList<Long>> groups = new LinkedList<>();
-        for (int i = 0; i < 10; i++) {
-            groups.add(i, new LinkedList<Long>());
-        }
-
         for (int i = 2; i >= 0; i--) {
 
+            // Initialize 10 groups
+            List<LinkedList<Long>> groups = new LinkedList<>();
+            for (int k = 0; k < 10; k++) {
+                groups.add(k, new LinkedList<Long>());
+            }
+
+            // Disassemble
             for (int j = 0; j < input.length; j++) {
                 String key = String.valueOf(input[j]);
                 char digit = key.charAt(i);
@@ -38,7 +40,6 @@ public class RadixSort {
             Iterator<LinkedList<Long>> groupsIterator = groups.iterator();
             int index = 0;
             while (groupsIterator.hasNext()) {
-                // TODO: Take care of empty groups
                 LinkedList<Long> singleGroup = groupsIterator.next();
                 Iterator<Long> singleGroupIterator = singleGroup.iterator();
                 while (singleGroupIterator.hasNext()) {
