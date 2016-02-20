@@ -1,19 +1,17 @@
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 
-/**
- * Created by try on 19/2/16.
- */
+/** Implements radix sort for any radix */
 public class RadixSort2 {
 
     private static final int RADIX = 2;
 
     public int[] radixSort(int[] arrayToSort) {
         // Initialize the number of group according to radix.
-        LinkedList[] groups = new LinkedList[RADIX];
+        LinkedList[] groups =  new LinkedList[RADIX];
         for(int i = 0; i < groups.length; i++) {
-            groups[i] = new LinkedList<Integer>();
+            LinkedList<Integer> group = new LinkedList<>();
+            groups[i] = group;
         }
 
         boolean maxDigits = false;
@@ -31,13 +29,12 @@ public class RadixSort2 {
 
             int index = 0;
             for (LinkedList group : groups) {
-                Iterator<Integer> groupIterator = group.iterator();
-                while (groupIterator.hasNext()) {
-                    arrayToSort[index++] = groupIterator.next();
+                for (Object integer : group) {
+                    arrayToSort[index++] = (int) integer;
                 }
             }
-            for(int i = 0; i < groups.length; i++) {
-                groups[i].clear();
+            for (LinkedList group : groups) {
+                group.clear();
             }
             digitPosition = RADIX * digitPosition;
         }
