@@ -7,7 +7,7 @@ import java.util.LinkedList;
  */
 public class RadixSort2 {
 
-    private static final int RADIX = 10;
+    private static final int RADIX = 2;
 
     public int[] radixSort(int[] arrayToSort) {
         // Initialize the number of group according to radix.
@@ -23,7 +23,7 @@ public class RadixSort2 {
             maxDigits = true;
             for (int element : arrayToSort) {
                 temporary = element / digitPosition;
-                groups[temporary % (digitPosition * RADIX)].add(element);
+                groups[temporary % RADIX].add(element);
                 if(maxDigits && temporary > 0) {
                     maxDigits = false;
                 }
