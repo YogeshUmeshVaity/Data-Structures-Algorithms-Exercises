@@ -5,16 +5,16 @@ import java.util.Arrays;
  */
 public class TreeCreator {
     private Node[] nodes;
-    private int forestIndex;
+    private int index;
 
     public TreeCreator(int numNodes) {
         nodes = new Node[numNodes];
-        forestIndex = 0;
+        index = 0;
     }
 
     public boolean add(Node node) {
-        if (forestIndex < nodes.length) {
-            nodes[forestIndex++] = node;
+        if (index < nodes.length) {
+            nodes[index++] = node;
             return true;
         } else {
             return false;
@@ -28,11 +28,18 @@ public class TreeCreator {
         mainTree.setRoot(nodes[0]);
         createTreeRecursively(mainTree.getRoot(), 1);
 
+        // If number of nodes is even, need to be set last node manually to it's parent.
+        if(nodes.length % 2 == 0) {
+            int lastNodeIndex = nodes.length;
+            int lastNodeParentIndex = (lastNodeIndex - 1) / 2;
+            nodes[lastNodeParentIndex].setLeftChild(nodes[nodes.length - 1]);
+        }
+
         return mainTree;
     }
 
     private void createTreeRecursively(Node root, int rootIndex) {
-        if(rootIndex * 2 > nodes.length - 1) {
+        if(rootIndex * 2 >= nodes.length) {
             return;
         } else {
             root.setLeftChild(nodes[2 * rootIndex - 1]);
@@ -53,8 +60,6 @@ public class TreeCreator {
             Node newNode = new Node((char) i);
             treeCreator.add(newNode);
         }
-
-
 
         Tree mainTree = treeCreator.createMainTree();
         mainTree.displayTree();
