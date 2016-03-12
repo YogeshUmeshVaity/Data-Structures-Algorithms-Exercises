@@ -6,6 +6,8 @@ import java.util.Stack;
 public class Tree {
     private Node root;
 
+    private StringBuilder inorderOutput = new StringBuilder();
+
     public void setRoot(Node root) {
         this.root = root;
     }
@@ -61,5 +63,38 @@ public class Tree {
         }  // end while isRowEmpty is false
         System.out.println(
                 "......................................................");
+    }
+
+    public void preOrder(Node localRoot) {
+        if (localRoot != null) {
+            System.out.print(localRoot + " ");
+            preOrder(localRoot.getLeftChild());
+            preOrder(localRoot.getRightChild());
+        }
+    }
+
+    public void inorder(Node localRoot) {
+        recurseInorder(localRoot);
+        System.out.print(inorderOutput);
+    }
+
+    public void recurseInorder(Node localRoot) {
+        if (localRoot != null) {
+            inorderOutput.append("(");
+            recurseInorder(localRoot.getLeftChild());
+            inorderOutput.setLength(inorderOutput.length() - 1);
+            inorderOutput.append(localRoot + " ");
+            inorderOutput.setLength(inorderOutput.length() - 1);
+            recurseInorder(localRoot.getRightChild());
+            inorderOutput.append(")");
+        }
+    }
+
+    public void postOrder(Node localRoot) {
+        if (localRoot != null) {
+            postOrder(localRoot.getLeftChild());
+            postOrder(localRoot.getRightChild());
+            System.out.print(localRoot + " ");
+        }
     }
 }
