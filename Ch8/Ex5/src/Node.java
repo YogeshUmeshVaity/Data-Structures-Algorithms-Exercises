@@ -1,12 +1,12 @@
 /** Represents a node in a binary tree data structure */
 public class Node {
-    private char letter;
+    private Character character;
     private int frequency;
     private Node leftChild;
     private Node rightChild;
 
-    public Node(char letter, int frequency) {
-        this.letter = letter;
+    public Node(Character character, int frequency) {
+        this.character = character;
         this.frequency = frequency;
     }
 
@@ -26,9 +26,22 @@ public class Node {
         return leftChild;
     }
 
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
+    }
+
     /** Returns a String representation of this node. */
     @Override
     public String toString() {
-        return "" + letter + "|" + frequency;
+        if(character == null) {
+            return "" + frequency;
+        } else {
+            return "" + character + ":" + frequency;
+        }
+
     }
 }

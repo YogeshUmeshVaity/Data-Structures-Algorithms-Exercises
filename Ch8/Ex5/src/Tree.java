@@ -1,9 +1,10 @@
+import java.util.Comparator;
 import java.util.Stack;
 
 /**
  * A binary tree
  */
-public class Tree {
+public class Tree implements Comparator<Tree> {
     private Node root;
 
     public void setRoot(Node root) {
@@ -61,5 +62,13 @@ public class Tree {
         }  // end while isRowEmpty is false
         System.out.println(
                 "......................................................");
+    }
+
+    @Override
+    public int compare(Tree tree1, Tree tree2) {
+        int frequency1 = tree1.getRoot().getFrequency();
+        int frequency2 = tree2.getRoot().getFrequency();
+
+        return (frequency1 < frequency2 ? -1 : (frequency1 == frequency2 ? 0 : 1));
     }
 }
