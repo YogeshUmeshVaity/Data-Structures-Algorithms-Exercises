@@ -28,8 +28,6 @@ public class Tree implements Comparator<Tree> {
         globalStack.push(root);
         int nBlanks = 32;
         boolean isRowEmpty = false;
-        System.out.println(
-                "......................................................");
         while (!isRowEmpty) {
             Stack<Node> localStack = new Stack<>();
             isRowEmpty = true;
@@ -60,8 +58,6 @@ public class Tree implements Comparator<Tree> {
             while (!localStack.isEmpty())
                 globalStack.push(localStack.pop());
         }  // end while isRowEmpty is false
-        System.out.println(
-                "......................................................");
     }
 
     @Override

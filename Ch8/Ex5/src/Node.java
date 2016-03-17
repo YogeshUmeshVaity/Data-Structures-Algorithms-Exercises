@@ -34,6 +34,10 @@ public class Node {
         this.frequency = frequency;
     }
 
+    public Character getCharacter() {
+        return character;
+    }
+
     /** Returns a String representation of this node. */
     @Override
     public String toString() {

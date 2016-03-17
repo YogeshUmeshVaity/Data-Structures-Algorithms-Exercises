@@ -8,6 +8,9 @@ import java.util.PriorityQueue;
 public class HuffmanTree {
     private PriorityQueue<Tree> treeQueue = new PriorityQueue<>(new Tree());
 
+    // Table for holding ASCII character codes and their binary representations.
+    private String[] codeTable = new String[256];
+
     /**
      * Encodes the specified message into the Huffman tree.
      *
@@ -16,7 +19,11 @@ public class HuffmanTree {
     public void encode(String message) {
         Map<Character, Integer> frequencyTable = createFrequencyTable(message);
         InsertOneNodeTrees(frequencyTable);
-        while(treeQueue.size() > 1) {
+        int queSize = treeQueue.size();
+//        for (int i = 0; i < queSize; i++) {
+//            treeQueue.remove().displayTree();
+//        }
+        while (treeQueue.size() > 1) {
             Tree leftTree = treeQueue.remove();
             Tree rightTree = treeQueue.remove();
             int totalFrequency =
@@ -28,6 +35,15 @@ public class HuffmanTree {
             newTree.setRoot(newNode);
             treeQueue.add(newTree);
         }
+
+        createCodeTable(treeQueue.peek().getRoot(), "");
+        System.out.println("space :" + codeTable[(int) ' ']);
+        System.out.println("E: " + codeTable[(int) 'E']);
+        System.out.println("S: " + codeTable[(int) 'S']);
+        System.out.println("S: " + codeTable[(int) 'A']);
+        System.out.println("T: " + codeTable[(int) 'T']);
+        System.out.println("U: " + codeTable[(int) 'U']);
+
     }
 
     /**
@@ -44,6 +60,17 @@ public class HuffmanTree {
             oneNodeTree.setRoot(node);
             treeQueue.add(oneNodeTree);
         }
+    }
+
+    public void createCodeTable(Node currentNode, String sequence) {
+        if (currentNode.getLeftChild() == null && currentNode.getRightChild() == null) {
+            char currentTreeChar = currentNode.getCharacter();
+            int charIndex = (int) currentTreeChar;
+            codeTable[charIndex] = sequence;
+            return;
+        }
+        createCodeTable(currentNode.getLeftChild(), sequence + "0");
+        createCodeTable(currentNode.getRightChild(), sequence + "1");
     }
 
     private Map<Character, Integer> createFrequencyTable(String message) {
