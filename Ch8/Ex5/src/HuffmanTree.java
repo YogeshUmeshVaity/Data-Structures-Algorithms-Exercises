@@ -16,13 +16,10 @@ public class HuffmanTree {
      *
      * @param message is the text message to be compressed.
      */
-    public void encode(String message) {
+    public String encode(String message) {
         Map<Character, Integer> frequencyTable = createFrequencyTable(message);
         InsertOneNodeTrees(frequencyTable);
         int queSize = treeQueue.size();
-//        for (int i = 0; i < queSize; i++) {
-//            treeQueue.remove().displayTree();
-//        }
         while (treeQueue.size() > 1) {
             Tree leftTree = treeQueue.remove();
             Tree rightTree = treeQueue.remove();
@@ -37,13 +34,36 @@ public class HuffmanTree {
         }
 
         createCodeTable(treeQueue.peek().getRoot(), "");
-        System.out.println("space :" + codeTable[(int) ' ']);
-        System.out.println("E: " + codeTable[(int) 'E']);
-        System.out.println("S: " + codeTable[(int) 'S']);
-        System.out.println("S: " + codeTable[(int) 'A']);
-        System.out.println("T: " + codeTable[(int) 'T']);
-        System.out.println("U: " + codeTable[(int) 'U']);
+        return encodeToBinary(message);
+    }
 
+    /** Decodes the specified binary message back to String */
+    public String decode(String binaryMessage) {
+        StringBuilder stringMessage = new StringBuilder();
+        Tree rootTree = treeQueue.peek();
+        int binaryMessageIndex = 0;
+        while (binaryMessageIndex < binaryMessage.length()) {
+            Node current = rootTree.getRoot();
+            while (current.getRightChild() != null && current.getLeftChild() != null) {
+                if(binaryMessage.charAt(binaryMessageIndex) == '1') {
+                    current = rootTree.getRoot().getRightChild();
+                } else {
+                    current = rootTree.getRoot().getLeftChild();
+                }
+                binaryMessageIndex++;
+            }
+            stringMessage.append(current.getCharacter());
+        }
+        return stringMessage.toString();
+    }
+
+    private String encodeToBinary(String message) {
+        StringBuilder binaryMessage = new StringBuilder();
+        for(int i = 0; i < message.length(); i++) {
+            int charIndex = (int) message.charAt(i);
+            binaryMessage.append(codeTable[charIndex]);
+        }
+        return binaryMessage.toString();
     }
 
     /**
@@ -62,7 +82,7 @@ public class HuffmanTree {
         }
     }
 
-    public void createCodeTable(Node currentNode, String sequence) {
+    private void createCodeTable(Node currentNode, String sequence) {
         if (currentNode.getLeftChild() == null && currentNode.getRightChild() == null) {
             char currentTreeChar = currentNode.getCharacter();
             int charIndex = (int) currentTreeChar;
@@ -95,7 +115,8 @@ public class HuffmanTree {
 
     public static void main(String[] args) {
         HuffmanTree tree = new HuffmanTree();
-        tree.encode("SUSIE SAYS IT IS EASY.");
-        tree.displayTree();
+        System.out.println(tree.encode("SUSIE SAYS IT IS EASY."));
+        //tree.displayTree();
+        tree.decode("10000110110010111100010111101111100000111110101110100011001110110");
     }
 }
