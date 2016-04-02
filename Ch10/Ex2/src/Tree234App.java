@@ -143,6 +143,29 @@ class Tree234
         }
         return current.getMinimumFromNode();
     }
+
+    public void inOrder() {
+        inOrderTraverse(root);
+    }
+
+    private void inOrderTraverse(Node currentNode) {
+        if(currentNode.isLeaf()) { // Base case
+            // Display current node.
+            for(int i = 0; i < currentNode.getNumItems(); i++) {
+                currentNode.getItem(i).displayItem();
+            }
+            return;
+        } else {
+            int numChildren = currentNode.getNumItems() + 1;
+            // Call ourselves for each child.
+            for(int i = 0; i < numChildren; i++) {
+                inOrderTraverse(currentNode.getChild(i));
+                if(i < numChildren -1) {
+                    currentNode.getItem(i).displayItem();
+                }
+            }
+        }
+    }
     // -------------------------------------------------------------
     // insert a DataItem
     public void insert(long dValue)
@@ -247,6 +270,8 @@ class Tree234
                 return;
         }
     }  // end recDisplayTree()
+
+
 // -------------------------------------------------------------\
 }  // end class Tree234
 ////////////////////////////////////////////////////////////////
@@ -265,8 +290,8 @@ class Tree234App
 
         while(true)
         {
-            System.out.print("Enter first letter of ");
-            System.out.print("show, insert, minimum or find: ");
+            System.out.print("\nEnter first letter of ");
+            System.out.print("show, insert, minimum, find or traverse: ");
             char choice = getChar();
             switch(choice)
             {
@@ -289,6 +314,9 @@ class Tree234App
                     break;
                 case 'm':
                     System.out.println("Minimum element is " + theTree.getMinimum());
+                    break;
+                case 't':
+                    theTree.inOrder();
                     break;
                 default:
                     System.out.print("Invalid entry\n");
