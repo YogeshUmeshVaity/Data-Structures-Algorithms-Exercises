@@ -7,11 +7,12 @@ class Tree23App
         long value;
         Tree23 theTree = new Tree23();
 
-        theTree.insert(50);
+        theTree.insert(30);
         theTree.insert(40);
-//        theTree.insert(60);
-//        theTree.insert(30);
-//        theTree.insert(70);
+        theTree.insert(50);
+        theTree.insert(60);
+        theTree.insert(70);
+        theTree.insert(90);
 
         while(true)
         {
