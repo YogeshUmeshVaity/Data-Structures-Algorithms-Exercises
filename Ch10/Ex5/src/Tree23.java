@@ -37,7 +37,7 @@ class Tree23 {
         // assumes node is full
         DataItem itemA, itemB, itemC;
         Node parent, child0, child1, child2;
-        int itemIndex;
+
 
         itemC = thisNode.removeItem();
         itemA = thisNode.removeItem();
@@ -95,17 +95,19 @@ class Tree23 {
             // Connect the new parent to it's grandparent
             //newRightParent.getParent().connectChild(1, parent); //
             parent = newRightParent;
-        }
-        // Insert middle item in the parent
-        itemIndex = parent.insertItem(itemB);
-        int n = parent.getNumItems();
-        for (int j = n - 1; j > itemIndex; j--) {
-            Node temp = parent.disconnectChild(j);
-            parent.connectChild(j + 1, temp);
+            //parent.insertItem(itemB);
+            parent.connectChild(1, newRightNode);
+        } else {
+            // Insert middle item in the parent
+            int itemIndex = parent.insertItem(itemB);
+            int n = parent.getNumItems();
+            for (int j = n - 1; j > itemIndex; j--) {
+                Node temp = parent.disconnectChild(j);
+                parent.connectChild(j + 1, temp);
+            }
+            parent.connectChild(itemIndex + 1, newRightNode);
         }
 
-
-        parent.connectChild(itemIndex + 1, newRightNode);
         return newRightNode;
     }
 

@@ -16,6 +16,13 @@ class Tree23App
         theTree.insert(36);
         theTree.insert(57);
         theTree.insert(120);
+        theTree.insert(61);
+        theTree.insert(77);
+        theTree.insert(45);
+        theTree.insert(63);
+        theTree.insert(66);
+
+
 
         while(true)
         {
