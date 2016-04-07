@@ -27,8 +27,7 @@ class Tree23 {
         if (!currentNode.isFull()) {
             currentNode.insertItem(newItem);
         } else {
-            newRightNode = split(currentNode, newItem);
-            //currentNode.getParent().connectChild(1, newRightNode);
+            split(currentNode, newItem);
         }
     }
 
@@ -90,13 +89,6 @@ class Tree23 {
         Node newRightNode = new Node();
         newRightNode.insertItem(itemC);
         if (parent.isFull()) {
-//            if(parent == root) {
-//                root = new Node();
-//                root.connectChild(0, parent);
-//                newRightParent = split(parent, itemB);
-//                root.connectChild(1, newRightParent);
-//                return newRightParent;
-//            }
             child0 = parent.disconnectChild(0);
             child1 = parent.disconnectChild(1);
             child2 = parent.disconnectChild(2);
@@ -117,11 +109,6 @@ class Tree23 {
                 newRightParent.connectChild(0, child2);
                 newRightParent.connectChild(1, newRightNode);
             }
-            // Connect the new parent to it's grandparent
-            //newRightParent.getParent().connectChild(1, parent); //
-            parent = newRightParent;
-            //parent.insertItem(itemB);
-            //parent.connectChild(1, newRightNode);
         } else {
             // Insert middle item in the parent
             int itemIndex = parent.insertItem(itemB);
