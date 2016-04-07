@@ -32,6 +32,28 @@ class Tree23 {
         }
     }
 
+    public void inOrder() {
+        inOrderTraverse(root);
+    }
+
+    private void inOrderTraverse(Node currentNode) {
+        if(currentNode.isLeaf()) { // Base case
+            // Display current node.
+            for(int i = 0; i < currentNode.getNumItems(); i++) {
+                currentNode.getItem(i).displayItem();
+            }
+            return;
+        } else {
+            int numChildren = currentNode.getNumItems() + 1;
+            // Call ourselves for each child.
+            for(int i = 0; i < numChildren; i++) {
+                inOrderTraverse(currentNode.getChild(i));
+                if(i < numChildren -1) {
+                    currentNode.getItem(i).displayItem();
+                }
+            }
+        }
+    }
 
     public Node split(Node thisNode, DataItem newItem) {
         // assumes node is full
@@ -81,22 +103,25 @@ class Tree23 {
             newRightParent = split(parent, itemB);
             if(thisNode == child0) {
                 parent.connectChild(0, child0);
+                parent.connectChild(1, newRightNode);
                 newRightParent.connectChild(0, child1);
                 newRightParent.connectChild(1, child2);
             } else if(thisNode == child1) {
                 parent.connectChild(0, child0);
                 parent. connectChild(1, child1);
+                newRightParent.connectChild(0, newRightNode);
                 newRightParent.connectChild(1, child2);
             } else if(thisNode == child2) {
                 parent.connectChild(0, child0);
                 parent.connectChild(1, child1);
                 newRightParent.connectChild(0, child2);
+                newRightParent.connectChild(1, newRightNode);
             }
             // Connect the new parent to it's grandparent
             //newRightParent.getParent().connectChild(1, parent); //
             parent = newRightParent;
             //parent.insertItem(itemB);
-            parent.connectChild(1, newRightNode);
+            //parent.connectChild(1, newRightNode);
         } else {
             // Insert middle item in the parent
             int itemIndex = parent.insertItem(itemB);

@@ -26,8 +26,8 @@ class Tree23App
 
         while(true)
         {
-            System.out.print("Enter first letter of ");
-            System.out.print("show, insert, or find: ");
+            System.out.print("\nEnter first letter of ");
+            System.out.print("show, insert, traverse, or find: ");
             char choice = getChar();
             switch(choice)
             {
@@ -47,6 +47,9 @@ class Tree23App
                         System.out.println("Found "+value);
                     else
                         System.out.println("Could not find "+value);
+                    break;
+                case 't':
+                    theTree.inOrder();
                     break;
                 default:
                     System.out.print("Invalid entry\n");
