@@ -52,11 +52,13 @@ class HashTable
         int key = item.getKey();      // extract key
         int hashVal = hashFunc(key);  // hash the key
         // until empty cell or -1,
+        int stepNumber = 0;
+        int baseHashVal = hashVal;
         while(hashArray[hashVal] != null &&
                 hashArray[hashVal].getKey() != -1)
         {
-            ++hashVal;                 // go to next cell
-            hashVal %= arraySize;      // wraparound if necessary
+            stepNumber++;
+            hashVal = (baseHashVal + (stepNumber * stepNumber)) % arraySize;
         }
         hashArray[hashVal] = item;    // insert item
     }  // end insert()
@@ -64,7 +66,8 @@ class HashTable
     public DataItem delete(int key)  // delete a DataItem
     {
         int hashVal = hashFunc(key);  // hash the key
-
+        int stepNumber = 0;
+        int baseHashVal = hashVal;
         while(hashArray[hashVal] != null)  // until empty cell,
         {                               // found the key?
             if(hashArray[hashVal].getKey() == key)
@@ -73,8 +76,8 @@ class HashTable
                 hashArray[hashVal] = nonItem;       // delete item
                 return temp;                        // return item
             }
-            ++hashVal;                 // go to next cell
-            hashVal %= arraySize;      // wraparound if necessary
+            stepNumber++;
+            hashVal = (baseHashVal + (stepNumber * stepNumber)) % arraySize;
         }
         return null;                  // can't find item
     }  // end delete()
@@ -82,13 +85,14 @@ class HashTable
     public DataItem find(int key)    // find item with key
     {
         int hashVal = hashFunc(key);  // hash the key
-
+        int stepNumber = 0;
+        int baseHashVal = hashVal;
         while(hashArray[hashVal] != null)  // until empty cell,
         {                               // found the key?
             if(hashArray[hashVal].getKey() == key)
                 return hashArray[hashVal];   // yes, return item
-            ++hashVal;                 // go to next cell
-            hashVal %= arraySize;      // wraparound if necessary
+            stepNumber++;
+            hashVal = (baseHashVal + (stepNumber * stepNumber)) % arraySize;
         }
         return null;                  // can't find item
     }
