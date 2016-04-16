@@ -1,57 +1,71 @@
-// hash.java
-// demonstrates hash table with linear probing
-// to run this program: C:>java HashTableApp
+// Write a hash function to implement a digit-folding approach in the hash function (as described in the
+// “Hash Functions” section of this chapter). Your program should work for any array size and any key length.
+// Use linear probing. Accessing a group of digits in a number may be easier than you think. Does it matter if
+// the array size is not a multiple of 10?
+
 import java.io.*;
-////////////////////////////////////////////////////////////////
-class DataItem
-{                                // (could have more data)
-    private int iData;               // data item (key)
-    //--------------------------------------------------------------
-    public DataItem(int ii)          // constructor
-    { iData = ii; }
-    //--------------------------------------------------------------
-    public int getKey()
-    { return iData; }
-//--------------------------------------------------------------
-}  // end class DataItem
-////////////////////////////////////////////////////////////////
-class HashTable
-{
-    private DataItem[] hashArray;    // array holds hash table
+
+
+class DataItem {
+    private int iData;
+
+
+    public DataItem(int ii) {
+        iData = ii;
+    }
+
+
+    public int getKey() {
+        return iData;
+    }
+
+}
+
+
+class HashTable {
+    private DataItem[] hashArray;
     private int arraySize;
-    private DataItem nonItem;        // for deleted items
-    // -------------------------------------------------------------
-    public HashTable(int size)       // constructor
-    {
+    private DataItem nonItem;
+
+    public HashTable(int size) {
         arraySize = size;
         hashArray = new DataItem[arraySize];
-        nonItem = new DataItem(-1);   // deleted item key is -1
+        nonItem = new DataItem(-1);
     }
-    // -------------------------------------------------------------
-    public void displayTable()
-    {
+
+    public void displayTable() {
         System.out.print("Table: ");
-        for(int j=0; j<arraySize; j++)
-        {
-            if(hashArray[j] != null)
+        for (int j = 0; j < arraySize; j++) {
+            if (hashArray[j] != null)
                 System.out.print(hashArray[j].getKey() + " ");
             else
                 System.out.print("** ");
         }
         System.out.println("");
     }
-    // -------------------------------------------------------------
-    public int hashFunc(int key)
-    {
 
-        int arraySizeDigits = getDigitCount(arraySize);
-        int groupSize = arraySizeDigits - 1;
-
+    public int hashFunc(int key) {
+        int keyDigitCount = getDigitCount(key);
+        int groupSize = getDigitCount(arraySize);
+        int groupSum = 0;
+        String keyString = Integer.toString(key);
+        int i;
+        for (i = 0; i < keyString.length(); i += groupSize) {
+            if (i + groupSize <= keyString.length()) {
+                String group = keyString.substring(i, i + groupSize);
+                groupSum += Integer.parseInt(group);
+            }
+        }
+        // There is no remaining part if count is divisible by groupsize.
+        if (keyDigitCount % groupSize != 0) {
+            String remainingPart = keyString.substring(i - groupSize, keyString.length());
+            groupSum += Integer.parseInt(remainingPart);
+        }
+        return groupSum % arraySize;
     }
 
-    int getDigitCount(int n) {
+    private int getDigitCount(int n) {
         int numDigits = 1;
-        //if (n < 0) n = (n == MININT) ? MAXINT : -n;
         while (n > 9) {
             n /= 10;
             numDigits++;
@@ -59,60 +73,49 @@ class HashTable
         return numDigits;
     }
 
-    // -------------------------------------------------------------
-    public void insert(DataItem item) // insert a DataItem
-    // (assumes table not full)
-    {
-        int key = item.getKey();      // extract key
-        int hashVal = hashFunc(key);  // hash the key
-        // until empty cell or -1,
-        while(hashArray[hashVal] != null &&
-                hashArray[hashVal].getKey() != -1)
-        {
-            ++hashVal;                 // go to next cell
-            hashVal %= arraySize;      // wraparound if necessary
-        }
-        hashArray[hashVal] = item;    // insert item
-    }  // end insert()
-    // -------------------------------------------------------------
-    public DataItem delete(int key)  // delete a DataItem
-    {
-        int hashVal = hashFunc(key);  // hash the key
+    public void insert(DataItem item)
 
-        while(hashArray[hashVal] != null)  // until empty cell,
-        {                               // found the key?
-            if(hashArray[hashVal].getKey() == key)
-            {
-                DataItem temp = hashArray[hashVal]; // save item
-                hashArray[hashVal] = nonItem;       // delete item
-                return temp;                        // return item
-            }
-            ++hashVal;                 // go to next cell
-            hashVal %= arraySize;      // wraparound if necessary
-        }
-        return null;                  // can't find item
-    }  // end delete()
-    // -------------------------------------------------------------
-    public DataItem find(int key)    // find item with key
     {
-        int hashVal = hashFunc(key);  // hash the key
+        int key = item.getKey();
+        int hashVal = hashFunc(key);
 
-        while(hashArray[hashVal] != null)  // until empty cell,
-        {                               // found the key?
-            if(hashArray[hashVal].getKey() == key)
-                return hashArray[hashVal];   // yes, return item
-            ++hashVal;                 // go to next cell
-            hashVal %= arraySize;      // wraparound if necessary
+        while (hashArray[hashVal] != null &&
+                hashArray[hashVal].getKey() != -1) {
+            ++hashVal;
+            hashVal %= arraySize;
         }
-        return null;                  // can't find item
+        hashArray[hashVal] = item;
     }
-// -------------------------------------------------------------
-}  // end class HashTable
-////////////////////////////////////////////////////////////////
-class HashTableApp
-{
-    public static void main(String[] args) throws IOException
-    {
+
+    public DataItem delete(int key) {
+        int hashVal = hashFunc(key);
+
+        while (hashArray[hashVal] != null) {
+            if (hashArray[hashVal].getKey() == key) {
+                DataItem temp = hashArray[hashVal];
+                hashArray[hashVal] = nonItem;
+                return temp;
+            }
+            ++hashVal;
+            hashVal %= arraySize;
+        }
+        return null;
+    }
+
+    public DataItem find(int key) {
+        int hashVal = hashFunc(key);
+        while (hashArray[hashVal] != null) {
+            if (hashArray[hashVal].getKey() == key)
+                return hashArray[hashVal];
+            ++hashVal;
+            hashVal %= arraySize;
+        }
+        return null;
+    }
+}
+
+class HashTableApp {
+    public static void main(String[] args) throws IOException {
         DataItem aDataItem;
         int aKey, size, n, keysPerCell;
         // get sizes
@@ -120,25 +123,22 @@ class HashTableApp
         size = getInt();
         System.out.print("Enter initial number of items: ");
         n = getInt();
-        keysPerCell = 10;
+        keysPerCell = 1000;
         // make table
         HashTable theHashTable = new HashTable(size);
 
-        for(int j=0; j<n; j++)        // insert data
-        {
-            aKey = (int)(java.lang.Math.random() *
+        for (int j = 0; j < n; j++) {
+            aKey = (int) (java.lang.Math.random() *
                     keysPerCell * size);
             aDataItem = new DataItem(aKey);
             theHashTable.insert(aDataItem);
         }
 
-        while(true)                   // interact with user
-        {
+        while (true) {
             System.out.print("Enter first letter of ");
             System.out.print("show, insert, delete, or find: ");
             char choice = getChar();
-            switch(choice)
-            {
+            switch (choice) {
                 case 's':
                     theHashTable.displayTable();
                     break;
@@ -157,38 +157,32 @@ class HashTableApp
                     System.out.print("Enter key value to find: ");
                     aKey = getInt();
                     aDataItem = theHashTable.find(aKey);
-                    if(aDataItem != null)
-                    {
+                    if (aDataItem != null) {
                         System.out.println("Found " + aKey);
-                    }
-                    else
+                    } else
                         System.out.println("Could not find " + aKey);
                     break;
                 default:
                     System.out.print("Invalid entry\n");
-            }  // end switch
-        }  // end while
-    }  // end main()
-    //--------------------------------------------------------------
-    public static String getString() throws IOException
-    {
+            }
+        }
+    }
+
+    public static String getString() throws IOException {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
         String s = br.readLine();
         return s;
     }
-    //--------------------------------------------------------------
-    public static char getChar() throws IOException
-    {
+
+    public static char getChar() throws IOException {
         String s = getString();
         return s.charAt(0);
     }
-    //-------------------------------------------------------------
-    public static int getInt() throws IOException
-    {
+
+    public static int getInt() throws IOException {
         String s = getString();
         return Integer.parseInt(s);
     }
-//--------------------------------------------------------------
-}  // end class HashTableApp
-////////////////////////////////////////////////////////////////
+}
+
