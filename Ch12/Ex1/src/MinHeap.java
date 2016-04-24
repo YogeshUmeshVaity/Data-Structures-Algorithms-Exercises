@@ -50,7 +50,7 @@ class Heap
         Node bottom = heapArray[index];
 
         while( index > 0 &&
-                heapArray[parent].getKey() < bottom.getKey() )
+                heapArray[parent].getKey() > bottom.getKey() )
         {
             heapArray[index] = heapArray[parent];  // move it down
             index = parent;
@@ -77,13 +77,13 @@ class Heap
             int rightChild = leftChild+1;
             // find larger child
             if(rightChild < currentSize &&  // (rightChild exists?)
-                    heapArray[leftChild].getKey() <
+                    heapArray[leftChild].getKey() >
                             heapArray[rightChild].getKey())
                 largerChild = rightChild;
             else
                 largerChild = leftChild;
             // top >= largerChild?
-            if( top.getKey() >= heapArray[largerChild].getKey() )
+            if( top.getKey() <= heapArray[largerChild].getKey() )
                 break;
             // shift child up
             heapArray[index] = heapArray[largerChild];
@@ -99,7 +99,7 @@ class Heap
         int oldValue = heapArray[index].getKey(); // remember old
         heapArray[index].setKey(newValue);  // change to new
 
-        if(oldValue < newValue)             // if raised,
+        if(oldValue > newValue)             // if raised,
             trickleUp(index);                // trickle it up
         else                                // if lowered,
             trickleDown(index);              // trickle it down
@@ -187,9 +187,9 @@ class HeapApp
                         System.out.println("Can't insert; heap full");
                     break;
                 case 'r':                        // remove
-                    if( !theHeap.isEmpty() )
-                        theHeap.remove();
-                    else
+                    if( !theHeap.isEmpty() ) {
+                        System.out.println("Removed " + theHeap.remove().getKey());
+                    } else
                         System.out.println("Can't remove; heap empty");
                     break;
                 case 'c':                        // change
