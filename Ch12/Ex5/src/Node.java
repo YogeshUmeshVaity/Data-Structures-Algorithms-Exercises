@@ -15,12 +15,17 @@ public class Node {
         return key;
     }
 
+    public void setKey(int key) {
+        this.key = key;
+    }
+
     public Node getLeftChild() {
         return leftChild;
     }
 
     public void setLeftChild(Node leftChild) {
         this.leftChild = leftChild;
+        leftChild.setParent(this);
     }
 
     public Node getRightChild() {
@@ -29,6 +34,7 @@ public class Node {
 
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
+        rightChild.setParent(this);
     }
 
     public Node getParent() {
