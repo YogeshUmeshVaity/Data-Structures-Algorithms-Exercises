@@ -32,7 +32,6 @@ public class TreeHeap {
     }
 
     private Node findFirstNullNode() {
-        Node nullNode =
         return findLastNode(numNodes + 1);
     }
 
@@ -43,22 +42,26 @@ public class TreeHeap {
             numNodes++;
             return true;
         }
-        Node lastNode = findLastNode(numNodes);
-        Node nullNode = null;
-        if(lastNode != root && lastNode.getParent().getRightChild() == null) {
-            lastNode = lastNode.getParent();
-        } else if(lastNode != root){
-            lastNode = lastNode.getParent().getLeftChild();
+        String binaryPath = convertToBinary(numNodes + 1);
+        Node nullNode = root;
+        for(int i = 1; i < binaryPath.length(); i++) {
+            if(binaryPath.charAt(i) == '0') {
+                if(nullNode.getLeftChild() != null) {
+                    nullNode = nullNode.getLeftChild();
+                }
+            } else {
+                if (nullNode.getRightChild() != null) {
+                    nullNode = nullNode.getRightChild();
+                }
+            }
         }
-        if(lastNode.getLeftChild() == null) {
-            lastNode.setLeftChild(newNode);
-            newNode.setParent(lastNode);
-            trickleUp(lastNode.getLeftChild());
+        if(nullNode.getLeftChild() == null) {
+            nullNode.setLeftChild(newNode);
         } else {
-            lastNode.setRightChild(newNode);
-            newNode.setParent(lastNode);
-            trickleUp(lastNode.getRightChild());
+            nullNode.setRightChild(newNode);
         }
+        newNode.setParent(nullNode);
+        trickleUp(newNode);
         numNodes++;
         return true;
     }
