@@ -66,6 +66,56 @@ public class TreeHeap {
         return true;
     }
 
+    public Node remove() {
+        // If heap empty
+        if(root == null) return null;
+
+        // If root is the only element in heap
+        if(root.getLeftChild() == null && root.getRightChild() == null) {
+            Node savedRoot = root;
+            root = null;
+            numNodes--;
+            return savedRoot;
+        }
+
+        Node removedNode= root;
+        Node lastNode = findLastNode(numNodes);
+
+        // Disconnect last node from it's parent
+        if(lastNode.getParent().getLeftChild() == lastNode) {
+            lastNode.getParent().setLeftChild(null);
+        } else if(lastNode.getParent().getRightChild() == lastNode) {
+            lastNode.getParent().setRightChild(null);
+        }
+
+        // Move last node to top(as root)
+        lastNode.setLeftChild(removedNode.getLeftChild());
+        lastNode.setRightChild(removedNode.getRightChild());
+        lastNode.setParent(null);
+        root = lastNode;
+        trickleDown(root);
+        numNodes--;
+        return removedNode;
+    }
+
+    private void trickleDown(Node newFirstNode) {
+        Node largerChild;
+        int top = newFirstNode.getKey();
+        while(newFirstNode.getLeftChild() != null || newFirstNode.getRightChild() != null) {
+            Node leftChild = newFirstNode.getLeftChild();
+            Node rightChild = newFirstNode.getRightChild();
+            if(rightChild != null && leftChild.getKey() < rightChild.getKey()) {
+                largerChild = rightChild;
+            } else {
+                largerChild = leftChild;
+            }
+            if(top >= largerChild.getKey()) break;
+            newFirstNode.setKey(largerChild.getKey());
+            newFirstNode = largerChild;
+        }
+        newFirstNode.setKey(top);
+    }
+
     private void trickleUp(Node nullNode) {
         Node parent = nullNode.getParent();
         int bottom = nullNode.getKey();
@@ -89,5 +139,36 @@ public class TreeHeap {
         treeHeap.insert(60);
         treeHeap.insert(72);
         treeHeap.insert(69);
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+
+        treeHeap.insert(39);
+        treeHeap.insert(93);
+        treeHeap.insert(21);
+        treeHeap.insert(22);
+        treeHeap.insert(70);
+        treeHeap.insert(90);
+        treeHeap.insert(63);
+        treeHeap.insert(60);
+        treeHeap.insert(72);
+        treeHeap.insert(69);
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
+        System.out.println(treeHeap.remove());
     }
 }

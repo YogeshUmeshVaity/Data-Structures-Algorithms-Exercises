@@ -25,7 +25,9 @@ public class Node {
 
     public void setLeftChild(Node leftChild) {
         this.leftChild = leftChild;
-        leftChild.setParent(this);
+        if (leftChild != null) {
+            leftChild.setParent(this);
+        }
     }
 
     public Node getRightChild() {
@@ -34,7 +36,9 @@ public class Node {
 
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
-        rightChild.setParent(this);
+        if (rightChild != null) {
+            rightChild.setParent(this);
+        }
     }
 
     public Node getParent() {
@@ -43,5 +47,10 @@ public class Node {
 
     public void setParent(Node parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public String toString() {
+        return "" + key;
     }
 }
