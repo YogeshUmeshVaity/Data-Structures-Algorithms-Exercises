@@ -90,28 +90,20 @@ class Graph
     public void mstBfs()                   // breadth-first search
     {                                // begin at vertex 0
         vertexList[0].wasVisited = true; // mark it
-        displayVertex(0);                // display it
         theQueue.insert(0);              // insert at tail
-        //displayVertex(0);
         int v2;
-        int lastVisited;
 
         while( !theQueue.isEmpty() )     // until queue empty,
         {
             int v1 = theQueue.remove();   // remove vertex at head
-            lastVisited = v1;
-
             // until it has no unvisited neighbors
             while( (v2=getAdjUnvisitedVertex(v1)) != -1 )
             {                                  // get one,
                 vertexList[v2].wasVisited = true;  // mark it
-                if (lastVisited != 0) {
-                    displayVertex(lastVisited);
-                }
+                displayVertex(v1);
                 displayVertex(v2);                 // display it
                 System.out.print(" ");
                 theQueue.insert(v2);               // insert it
-                lastVisited = v2;
             }   // end while
         }  // end while(queue not empty)
 
@@ -119,7 +111,6 @@ class Graph
         for(int j=0; j<nVerts; j++)             // reset flags
             vertexList[j].wasVisited = false;
     }  // end mstBfs()
-    // -------------------------------------------------------------
     // returns an unvisited vertex adj to v
     public int getAdjUnvisitedVertex(int v)
     {
