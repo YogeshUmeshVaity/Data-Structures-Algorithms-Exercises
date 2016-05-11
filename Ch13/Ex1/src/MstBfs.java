@@ -92,17 +92,26 @@ class Graph
         vertexList[0].wasVisited = true; // mark it
         displayVertex(0);                // display it
         theQueue.insert(0);              // insert at tail
+        //displayVertex(0);
         int v2;
+        int lastVisited;
 
         while( !theQueue.isEmpty() )     // until queue empty,
         {
             int v1 = theQueue.remove();   // remove vertex at head
+            lastVisited = v1;
+
             // until it has no unvisited neighbors
             while( (v2=getAdjUnvisitedVertex(v1)) != -1 )
             {                                  // get one,
                 vertexList[v2].wasVisited = true;  // mark it
+                if (lastVisited != 0) {
+                    displayVertex(lastVisited);
+                }
                 displayVertex(v2);                 // display it
+                System.out.print(" ");
                 theQueue.insert(v2);               // insert it
+                lastVisited = v2;
             }   // end while
         }  // end while(queue not empty)
 
@@ -127,19 +136,31 @@ class BFSApp
     public static void main(String[] args)
     {
         Graph theGraph = new Graph();
-        theGraph.addVertex('A');    // 0  (start for mstBfs)
+        theGraph.addVertex('A');    // 0  (start for mst)
         theGraph.addVertex('B');    // 1
         theGraph.addVertex('C');    // 2
         theGraph.addVertex('D');    // 3
         theGraph.addVertex('E');    // 4
+        theGraph.addVertex('F');    // 5
+        theGraph.addVertex('G');    // 6
+        theGraph.addVertex('H');    // 7
+        theGraph.addVertex('I');    // 8
 
         theGraph.addEdge(0, 1);     // AB
         theGraph.addEdge(1, 2);     // BC
-        theGraph.addEdge(0, 3);     // AD
+        theGraph.addEdge(2, 3);     // CD
         theGraph.addEdge(3, 4);     // DE
+        theGraph.addEdge(4, 8);     // EI
+        theGraph.addEdge(8, 7);     // IH
+        theGraph.addEdge(7, 0);     // HA
+        theGraph.addEdge(0, 5);     // AF
+        theGraph.addEdge(7, 5);     // HF
+        theGraph.addEdge(2, 6);     // CG
+        theGraph.addEdge(4, 6);     // EG
+        theGraph.addEdge(8, 6);     // IG
 
-        System.out.print("Visits: ");
-        theGraph.mstBfs();             // breadth-first search
+        System.out.print("Minimum spanning tree: ");
+        theGraph.mstBfs();             // minimum spanning tree
         System.out.println();
     }  // end main()
 }  // end class BFSApp
