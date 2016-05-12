@@ -5,18 +5,17 @@
 class Link
 {
     public int iData;              // data item (key)
-    public double dData;           // data item
     public Link next;              // next link in list
+    public boolean wasVisited;
     // -------------------------------------------------------------
-    public Link(int id, double dd) // constructor
+    public Link(int id) // constructor
     {
         iData = id;
-        dData = dd;
     }
     // -------------------------------------------------------------
     public void displayLink()      // display ourself
     {
-        System.out.print("{" + iData + ", " + dData + "} ");
+        System.out.print("{" + iData +  "} ");
     }
 }  // end class Link
 ////////////////////////////////////////////////////////////////
@@ -30,17 +29,17 @@ class LinkList
         first = null;               // no links on list yet
     }
     // -------------------------------------------------------------
-    public void insertFirst(int id, double dd)
+    public void insertFirst(int id)
     {                           // make new link
-        Link newLink = new Link(id, dd);
+        Link newLink = new Link(id);
         newLink.next = first;       // it points to old first link
         first = newLink;            // now first points to this
     }
     // -------------------------------------------------------------
-    public Link find(int key)      // find link with given key
+    public Link find()      // find link with given key
     {                           // (assumes non-empty list)
         Link current = first;              // start at 'first'
-        while(current.iData != key)        // while no match,
+        while(!current.wasVisited)        // while no match,
         {
             if(current.next == null)        // if end of list,
                 return null;                 // didn't find it
@@ -91,14 +90,14 @@ class LinkList2App
     {
         LinkList theList = new LinkList();  // make list
 
-        theList.insertFirst(22, 2.99);      // insert 4 items
-        theList.insertFirst(44, 4.99);
-        theList.insertFirst(66, 6.99);
-        theList.insertFirst(88, 8.99);
+        theList.insertFirst(22);      // insert 4 items
+        theList.insertFirst(44);
+        theList.insertFirst(66);
+        theList.insertFirst(88);
 
         theList.displayList();              // display list
 
-        Link f = theList.find(44);          // find item
+        Link f = theList.find();          // find item
         if( f != null)
             System.out.println("Found link with key " + f.iData);
         else
