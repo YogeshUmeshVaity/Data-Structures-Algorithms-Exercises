@@ -69,7 +69,6 @@ class Graph
     public void addEdge(int start, int end)
     {
         adjMat[start][end] = 1;
-        adjMat[end][start] = 1;
     }
     // ------------------------------------------------------------
     public void displayVertex(int v)
@@ -78,28 +77,32 @@ class Graph
     }
     // ------------------------------------------------------------
     public void dfs()  // depth-first search
-    {                                 // begin at vertex 0
-        vertexList[0].wasVisited = true;  // mark it
-        displayVertex(0);                 // display it
-        theStack.push(0);                 // push it
+    {
+        System.out.println();
+        for (int i = 0; i < nVerts; i++) {
+            vertexList[i].wasVisited = true;  // mark it
+            displayVertex(i);                 // display it
+            theStack.push(i);                 // push it
 
-        while( !theStack.isEmpty() )      // until stack empty,
-        {
-            // get an unvisited vertex adjacent to stack top
-            int v = getAdjUnvisitedVertex( theStack.peek() );
-            if(v == -1)                    // if no such vertex,
-                theStack.pop();
-            else                           // if it exists,
+            while( !theStack.isEmpty() )      // until stack empty,
             {
-                vertexList[v].wasVisited = true;  // mark it
-                displayVertex(v);                 // display it
-                theStack.push(v);                 // push it
-            }
-        }  // end while
+                // get an unvisited vertex adjacent to stack top
+                int v = getAdjUnvisitedVertex( theStack.peek() );
+                if(v == -1)                    // if no such vertex,
+                    theStack.pop();
+                else                           // if it exists,
+                {
+                    vertexList[v].wasVisited = true;  // mark it
+                    displayVertex(v);                 // display it
+                    theStack.push(v);                 // push it
+                }
+            }  // end while
 
-        // stack is empty, so we're done
-        for(int j=0; j<nVerts; j++)          // reset flags
-            vertexList[j].wasVisited = false;
+            // stack is empty, so we're done
+            for(int j=0; j<nVerts; j++)          // reset flags
+                vertexList[j].wasVisited = false;
+            System.out.println();
+        }
     }  // end dfs
     // ------------------------------------------------------------
     // returns an unvisited vertex adj to v
@@ -124,12 +127,13 @@ class DFSApp
         theGraph.addVertex('D');    // 3
         theGraph.addVertex('E');    // 4
 
-        theGraph.addEdge(0, 1);     // AB
-        theGraph.addEdge(1, 2);     // BC
-        theGraph.addEdge(0, 3);     // AD
+        theGraph.addEdge(0, 2);     // AC
+        theGraph.addEdge(1, 0);     // BA
+        theGraph.addEdge(1, 4);     // BE
+        theGraph.addEdge(4, 2);     // EC
         theGraph.addEdge(3, 4);     // DE
 
-        System.out.print("Visits: ");
+        System.out.print("Connectivity Table: ");
         theGraph.dfs();             // depth-first search
         System.out.println();
     }  // end main()
