@@ -44,8 +44,8 @@ class Vertex
 class Graph
 {
     private final int MAX_VERTS = 20;
-    private Vertex vertexList[]; // list of vertices
-    private int adjMat[][];      // adjacency matrix
+    private Vertex[] vertexList; // list of vertices
+    private LinkList[] adjacencyList;      // adjacency list
     private int nVerts;          // current number of vertices
     private StackX theStack;
     // ------------------------------------------------------------
@@ -53,11 +53,11 @@ class Graph
     {
         vertexList = new Vertex[MAX_VERTS];
         // adjacency matrix
-        adjMat = new int[MAX_VERTS][MAX_VERTS];
+        adjacencyList = new LinkList[MAX_VERTS];
+        for(int i = 0; i < adjacencyList.length; i++) {
+            adjacencyList[i] = new LinkList();
+        }
         nVerts = 0;
-        for(int y=0; y<MAX_VERTS; y++)      // set adjacency
-            for(int x=0; x<MAX_VERTS; x++)   //    matrix to 0
-                adjMat[x][y] = 0;
         theStack = new StackX();
     }  // end constructor
     // ------------------------------------------------------------
@@ -68,8 +68,8 @@ class Graph
     // ------------------------------------------------------------
     public void addEdge(int start, int end)
     {
-        adjMat[start][end] = 1;
-        adjMat[end][start] = 1;
+        adjacencyList[start].insertFirst(end);
+        adjacencyList[end].insertFirst(start);
     }
     // ------------------------------------------------------------
     public void displayVertex(int v)
@@ -105,10 +105,12 @@ class Graph
     // returns an unvisited vertex adj to v
     public int getAdjUnvisitedVertex(int v)
     {
-        for(int j=0; j<nVerts; j++)
-            if(adjMat[v][j]==1 && vertexList[j].wasVisited==false)
-                return j;
-        return -1;
+        Link unvisitedLink = adjacencyList[v].findUnvisited(vertexList);
+        if(unvisitedLink != null) {
+            return unvisitedLink.iData;
+        } else {
+            return -1;
+        }
     }  // end getAdjUnvisitedVertex()
 // ------------------------------------------------------------
 }  // end class Graph

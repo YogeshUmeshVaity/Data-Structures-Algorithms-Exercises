@@ -6,7 +6,7 @@ class Link
 {
     public int iData;              // data item (key)
     public Link next;              // next link in list
-    public boolean wasVisited;
+    public Vertex vertex;
     // -------------------------------------------------------------
     public Link(int id) // constructor
     {
@@ -36,13 +36,13 @@ class LinkList
         first = newLink;            // now first points to this
     }
     // -------------------------------------------------------------
-    public Link find()      // find link with given key
+    public Link findUnvisited(Vertex[] vertexList)      // findUnvisited link with given key
     {                           // (assumes non-empty list)
         Link current = first;              // start at 'first'
-        while(!current.wasVisited)        // while no match,
+        while(vertexList[current.iData].wasVisited != false)        // while no match,
         {
             if(current.next == null)        // if end of list,
-                return null;                 // didn't find it
+                return null;                 // didn't findUnvisited it
             else                            // not end of list,
                 current = current.next;      // go to next link
         }
@@ -56,7 +56,7 @@ class LinkList
         while(current.iData != key)
         {
             if(current.next == null)
-                return null;                 // didn't find it
+                return null;                 // didn't findUnvisited it
             else
             {
                 previous = current;          // go to next link
@@ -84,32 +84,32 @@ class LinkList
 // -------------------------------------------------------------
 }  // end class LinkList
 ////////////////////////////////////////////////////////////////
-class LinkList2App
-{
-    public static void main(String[] args)
-    {
-        LinkList theList = new LinkList();  // make list
-
-        theList.insertFirst(22);      // insert 4 items
-        theList.insertFirst(44);
-        theList.insertFirst(66);
-        theList.insertFirst(88);
-
-        theList.displayList();              // display list
-
-        Link f = theList.find();          // find item
-        if( f != null)
-            System.out.println("Found link with key " + f.iData);
-        else
-            System.out.println("Can't find link");
-
-        Link d = theList.delete(66);        // delete item
-        if( d != null )
-            System.out.println("Deleted link with key " + d.iData);
-        else
-            System.out.println("Can't delete link");
-
-        theList.displayList();              // display list
-    }  // end main()
-}  // end class LinkList2App
+//class LinkList2App
+//{
+//    public static void main(String[] args)
+//    {
+//        LinkList theList = new LinkList();  // make list
+//
+//        theList.insertFirst(22);      // insert 4 items
+//        theList.insertFirst(44);
+//        theList.insertFirst(66);
+//        theList.insertFirst(88);
+//
+//        theList.displayList();              // display list
+//
+//        Link f = theList.findUnvisited();          // findUnvisited item
+//        if( f != null)
+//            System.out.println("Found link with key " + f.iData);
+//        else
+//            System.out.println("Can't findUnvisited link");
+//
+//        Link d = theList.delete(66);        // delete item
+//        if( d != null )
+//            System.out.println("Deleted link with key " + d.iData);
+//        else
+//            System.out.println("Can't delete link");
+//
+//        theList.displayList();              // display list
+//    }  // end main()
+//}  // end class LinkList2App
 ////////////////////////////////////////////////////////////////
