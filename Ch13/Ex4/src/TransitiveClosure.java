@@ -45,7 +45,7 @@ class Graph
 {
     private final int MAX_VERTS = 20;
     private Vertex vertexList[]; // list of vertices
-    private int adjMat[][];      // adjacency matrix
+    private int adjacencyMatrix[][];      // adjacency matrix
     private int nVerts;          // current number of vertices
     private StackX theStack;
     // ------------------------------------------------------------
@@ -53,11 +53,11 @@ class Graph
     {
         vertexList = new Vertex[MAX_VERTS];
         // adjacency matrix
-        adjMat = new int[MAX_VERTS][MAX_VERTS];
+        adjacencyMatrix = new int[MAX_VERTS][MAX_VERTS];
         nVerts = 0;
         for(int y=0; y<MAX_VERTS; y++)      // set adjacency
             for(int x=0; x<MAX_VERTS; x++)   //    matrix to 0
-                adjMat[x][y] = 0;
+                adjacencyMatrix[x][y] = 0;
         theStack = new StackX();
     }  // end constructor
     // ------------------------------------------------------------
@@ -68,7 +68,7 @@ class Graph
     // ------------------------------------------------------------
     public void addEdge(int start, int end)
     {
-        adjMat[start][end] = 1;
+        adjacencyMatrix[start][end] = 1;
     }
     // ------------------------------------------------------------
     public void displayVertex(int v)
@@ -78,7 +78,6 @@ class Graph
     // ------------------------------------------------------------
     public void dfs()  // depth-first search
     {
-        System.out.println();
         for (int i = 0; i < nVerts; i++) {
             vertexList[i].wasVisited = true;  // mark it
             displayVertex(i);                 // display it
@@ -104,12 +103,48 @@ class Graph
             System.out.println();
         }
     }  // end dfs
+
+    public void makeTransitiveClosure() {
+        System.out.println("Adjacency matrix...");
+        showMatrix();
+        for(int y = 0; y < nVerts; y++) {
+            for (int x = 0; x < nVerts; x++) {
+                if(adjacencyMatrix[y][x] == 1) {
+                    for(int z = 0; z < nVerts; z++) {
+                        if(adjacencyMatrix[z][y] == 1) {
+                            adjacencyMatrix[z][x] = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("\nTransitive closure...");
+        showMatrix();
+    }
+
+    private void showMatrix() {
+        System.out.println();
+        System.out.print("  ");
+        for(int column = 0; column < nVerts; column++) {
+            System.out.print(vertexList[column].label + " ");
+        }
+        System.out.println();
+        for(int i = 0; i < nVerts; i++) {
+            System.out.print(vertexList[i].label + " ");
+            for(int j = 0; j < nVerts; j++) {
+                System.out.print(adjacencyMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     // ------------------------------------------------------------
     // returns an unvisited vertex adj to v
     public int getAdjUnvisitedVertex(int v)
     {
         for(int j=0; j<nVerts; j++)
-            if(adjMat[v][j]==1 && vertexList[j].wasVisited==false)
+            if(adjacencyMatrix[v][j]==1 && vertexList[j].wasVisited==false)
                 return j;
         return -1;
     }  // end getAdjUnvisitedVertex()
@@ -133,8 +168,10 @@ class DFSApp
         theGraph.addEdge(4, 2);     // EC
         theGraph.addEdge(3, 4);     // DE
 
-        System.out.print("Connectivity Table: ");
-        theGraph.dfs();             // depth-first search
+        theGraph.makeTransitiveClosure();
+
+//        System.out.print("Connectivity Table: ");
+//        theGraph.dfs();             // depth-first search
         System.out.println();
     }  // end main()
 }  // end class DFSApp
