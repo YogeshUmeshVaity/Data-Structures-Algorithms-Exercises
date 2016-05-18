@@ -133,40 +133,44 @@ public class KnightsTour {
     private int findValidMove(Square currentPosition) {
         int currentMove = currentPosition.getSquareNumber();
         for(int x = currentPosition.getLastMove() + 1; x < MAX_MOVES; x++) {
-            if(adjacentMovesMatrix[currentMove][x] == 1 && squareList[x].isVisited() == false) {
+            if(adjacentMovesMatrix[currentMove][x] == 1 && !squareList[x].isVisited()) {
                 return x;
             }
         }
         return -1;
     }
 
-    public void startTour() {
-        squareList[12].setVisited(true);
-        stack.push(squareList[12]);
+    public void startTour(int startMove) {
+        squareList[startMove].setVisited(true);
+        stack.push(squareList[startMove]);
+        board[squareList[startMove].getRow()][squareList[startMove].getColumn()].setVisited(true);
         while (!stack.isEmpty()) {
             int nextMove = findValidMove(stack.peek());
             if (nextMove == -1) {
                 Square backTrackMove = stack.pop();
-                //board[backTrackMove.getRow()][backTrackMove.getColumn()].setVisited(false);
+                board[backTrackMove.getRow()][backTrackMove.getColumn()].setVisited(false);
                 backTrackMove.setVisited(false);
                 backTrackMove.setLastMove(-1);
 
-//                if (!stack.isEmpty()) {
-//                    System.out.println("Backtracked move : "
-//                            + backTrackMove.getSquareNumber()
-//                            + ", Current Position : " + stack.peek().getSquareNumber());
-//                }
-//                showBoard();
-                //waitForInput();
+                // Display moves
+                if (!stack.isEmpty()) {
+                    System.out.println("Backtracked move : "
+                            + backTrackMove.getSquareNumber()
+                            + ", Current Position : " + stack.peek().getSquareNumber());
+                }
+                showBoard();
+                // waitForInput();
 
             } else {
                 squareList[nextMove].setVisited(true);
                 squareList[stack.peek().getSquareNumber()].setLastMove(nextMove);
                 stack.push(squareList[nextMove]);
-                //board[nextMoveRow][nextMoveColumn].setVisited(true);
 
-//                System.out.println("Last move : " + nextMove.getSquareNumber());
-//                showBoard();
+                // Display moves
+                board[squareList[nextMove].getRow()][squareList[nextMove].getColumn()]
+                        .setVisited(true);
+                System.out.println("Last move : " + nextMove);
+                showBoard();
                 //waitForInput();
 
                 if (stack.size() == MAX_MOVES) {
@@ -189,8 +193,7 @@ public class KnightsTour {
 
     public static void main(String[] args) {
         KnightsTour tour = new KnightsTour();
-        //tour.showBoard();
-        tour.startTour();
+        tour.startTour(12);
     }
 }
 
