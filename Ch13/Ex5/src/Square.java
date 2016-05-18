@@ -4,12 +4,17 @@
 public class Square {
     private int squareNumber;
     private boolean visited;
+
+    // Last visited on the matrix.
+    private int lastMove;
+
     private int row;
     private int column;
 
     public Square(int squareNumber, int row, int column) {
         this.squareNumber = squareNumber;
         visited = false;
+        this.lastMove = -1;
         this.row = row;
         this.column = column;
     }
@@ -29,6 +34,14 @@ public class Square {
 
     public void setSquareNumber(int squareNumber) {
         this.squareNumber = squareNumber;
+    }
+
+    public int getLastMove() {
+        return lastMove;
+    }
+
+    public void setLastMove(int lastMove) {
+        this.lastMove = lastMove;
     }
 
     public int getRow() {
