@@ -65,46 +65,48 @@ class Graph
     // -------------------------------------------------------------
     public void path()                // find all shortest paths
     {
-        int startTree = 0;             // start at vertex 0
-        vertexList[startTree].isInTree = true;
-        nTree = 1;                     // put it in tree
+        for (int i = 0; i < nVerts; i++) {
+            vertexList[i].isInTree = true;
+            nTree = 1;                     // put it in tree
 
-        // transfer row of distances from adjMat to sPath
-        for(int j=0; j<nVerts; j++)
-        {
-            int tempDist = adjMat[startTree][j];
-            sPath[j] = new DistPar(startTree, tempDist);
+            // transfer row of distances from adjMat to sPath
+            for(int j=0; j<nVerts; j++)
+            {
+                int tempDist = adjMat[i][j];
+                sPath[j] = new DistPar(i, tempDist);
+            }
+
+            // until all vertices are in the tree
+            while(nTree < nVerts)
+            {
+                int indexMin = getMin();    // get minimum from sPath
+                int minDist = sPath[indexMin].distance;
+
+                if(minDist == INFINITY)     // if all infinite
+                {                        // or in tree,
+                    //System.out.println("There are unreachable vertices");
+                    break;                   // sPath is complete
+                }
+                else
+                {                        // reset currentVert
+                    currentVert = indexMin;  // to closest vert
+                    startToCurrent = sPath[indexMin].distance;
+                    // minimum distance from startTree is
+                    // to currentVert, and is startToCurrent
+                }
+                // put current vertex in tree
+                vertexList[currentVert].isInTree = true;
+                nTree++;
+                adjust_sPath();             // update sPath[] array
+            }  // end while(nTree<nVerts)
+
+            System.out.print(vertexList[i].label + "   ");
+            displayPaths();                // display sPath[] contents
+
+            nTree = 0;                     // clear tree
+            for(int j=0; j<nVerts; j++)
+                vertexList[j].isInTree = false;
         }
-
-        // until all vertices are in the tree
-        while(nTree < nVerts)
-        {
-            int indexMin = getMin();    // get minimum from sPath
-            int minDist = sPath[indexMin].distance;
-
-            if(minDist == INFINITY)     // if all infinite
-            {                        // or in tree,
-                System.out.println("There are unreachable vertices");
-                break;                   // sPath is complete
-            }
-            else
-            {                        // reset currentVert
-                currentVert = indexMin;  // to closest vert
-                startToCurrent = sPath[indexMin].distance;
-                // minimum distance from startTree is
-                // to currentVert, and is startToCurrent
-            }
-            // put current vertex in tree
-            vertexList[currentVert].isInTree = true;
-            nTree++;
-            adjust_sPath();             // update sPath[] array
-        }  // end while(nTree<nVerts)
-
-        displayPaths();                // display sPath[] contents
-
-        nTree = 0;                     // clear tree
-        for(int j=0; j<nVerts; j++)
-            vertexList[j].isInTree = false;
     }  // end path()
     // -------------------------------------------------------------
     public int getMin()               // get entry from sPath
