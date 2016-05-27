@@ -62,7 +62,7 @@ class Graph {
             }
         }
 
-        System.out.println("\nTransitive closure...");
+        System.out.println("\nFloyd's matrix...");
         showMatrix();
     }
 
