@@ -1,5 +1,5 @@
 public class EdgeReferenceGraph {
-    private final int MAXIMUM_VERTICES = 20;
+    private static final int MAXIMUM_VERTICES = 20;
     private Vertex vertexList[];
     private int numVertices;
 
