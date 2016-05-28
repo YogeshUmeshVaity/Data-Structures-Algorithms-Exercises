@@ -22,12 +22,16 @@ class Vertex {
 }
 
 class Graph {
+    private static final int HOME_TOWN = 0;
     private final int MAX_VERTS = 20;
     private final int INFINITY = 1000000;
     private Vertex vertexList[];
     private int adjacencyMatrix[][];
     private int numVertices;
     private int currentVert;
+
+    // Stores temporary vertex number that will be anagrammed.
+    private int vertexNumbers[];
 
     public Graph() {
         vertexList = new Vertex[MAX_VERTS];
@@ -47,22 +51,84 @@ class Graph {
         adjacencyMatrix[end][start] = weight;
     }
 
-    public void displayVertex(int v) {
-        System.out.print(vertexList[v].label);
+    public void startJourney() {
+        decideTownsToTravel();
+        doAnagram(numVertices);
+    }
+
+    private void doAnagram(int newSize) {
+        int limit;
+        if (newSize == 1)
+            return;
+
+        for (int j = 0; j < newSize; j++) {
+            doAnagram(newSize - 1);
+            if (newSize == 2) {
+                int totalDistance = calculateTotalDistance();
+                if(totalDistance < INFINITY) {
+                    printCurrentSequence();
+                    System.out.print(" = " + totalDistance + "\n");
+                }
+            }
+            rotateVertices(newSize);
+        }
+    }
+
+    private void printCurrentSequence() {
+        System.out.print(vertexList[HOME_TOWN].label);
+        for (int vertexNumber : vertexNumbers) {
+            System.out.print(vertexList[vertexNumber].label);
+        }
+        System.out.print(vertexList[HOME_TOWN].label);
+    }
+
+    // Calculates the total distance between current series of towns.
+    private int calculateTotalDistance() {
+        int total = 0;
+
+        // First add distances of the anagrammed vertices
+        for (int i = 0; i < vertexNumbers.length - 1; i++) {
+            total += adjacencyMatrix[vertexNumbers[i]][vertexNumbers[i + 1]];
+        }
+
+        // Add the distance from first vertex to anagrammed vertices total distance.
+        total += adjacencyMatrix[HOME_TOWN][vertexNumbers[0]];
+
+        // Add the distance from first vertex to last vertex
+        total += adjacencyMatrix[vertexNumbers[vertexNumbers.length - 1]][HOME_TOWN];
+        return total;
+    }
+
+    private void rotateVertices(int newSize) {
+        int j;
+        int position = vertexNumbers.length - newSize;
+        int temp = vertexNumbers[position];                      // save first vertex
+        for (j = position + 1; j < vertexNumbers.length; j++)       // shift others left
+            vertexNumbers[j - 1] = vertexNumbers[j];
+        vertexNumbers[j - 1] = temp;                                // put first on right
+    }
+
+    // Copies vertex numbers to int array, this array will be anagrammed.
+    // Since we start from home town(A), we'll exclude the starting vertex(A).
+    private void decideTownsToTravel() {
+        vertexNumbers = new int[numVertices - 1];
+        for (int i = 1; i < numVertices; i++) {
+            vertexNumbers[i - 1] = i;
+        }
     }
 
     public void showMatrix() {
         System.out.println();
         System.out.print("  ");
-        for(int column = 0; column < numVertices; column++) {
+        for (int column = 0; column < numVertices; column++) {
             System.out.print(vertexList[column].label + "  ");
         }
         System.out.println();
-        for(int i = 0; i < numVertices; i++) {
+        for (int i = 0; i < numVertices; i++) {
             System.out.print(vertexList[i].label + " ");
-            for(int j = 0; j < numVertices; j++) {
+            for (int j = 0; j < numVertices; j++) {
                 String currentElement = Integer.toString(adjacencyMatrix[i][j]);
-                if(adjacencyMatrix[i][j] == INFINITY) {
+                if (adjacencyMatrix[i][j] == INFINITY) {
                     currentElement = "--";
                 }
                 System.out.print(currentElement + " ");
@@ -91,7 +157,8 @@ class TravelingSalesman {
         theGraph.addEdge(3, 2, 52);  // CE  5
         theGraph.addEdge(2, 1, 44);  // CF  6
 
-        theGraph.showMatrix();
+        //theGraph.showMatrix();
+        theGraph.startJourney();
     }
 }
 
