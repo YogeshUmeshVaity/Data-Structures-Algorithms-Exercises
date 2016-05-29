@@ -1,15 +1,3 @@
-class Edge {
-    public int sourceVertex;
-    public int destinationVertex;
-    public int distance;
-
-    public Edge(int sourceVertex, int destinationVertex, int distance) {
-        this.sourceVertex = sourceVertex;
-        this.destinationVertex = destinationVertex;
-        this.distance = distance;
-    }
-}
-
 class Vertex {
     public char label;
     public boolean isInTree;
@@ -28,7 +16,7 @@ class Graph {
     private Vertex vertexList[];
     private int adjacencyMatrix[][];
     private int numVertices;
-    private int currentVert;
+    private int sequenceCount = 0;
 
     // Stores temporary vertex number that will be anagrammed.
     private int vertexNumbers[];
@@ -52,8 +40,9 @@ class Graph {
     }
 
     public void startJourney() {
-        decideTownsToTravel();
-        doAnagram(numVertices);
+        decideTownsToAnagram();
+        doAnagram(numVertices - 1);
+        System.out.println("Sequences tested : " + sequenceCount);
     }
 
     private void doAnagram(int newSize) {
@@ -65,8 +54,9 @@ class Graph {
             doAnagram(newSize - 1);
             if (newSize == 2) {
                 int totalDistance = calculateTotalDistance();
+                sequenceCount++;
                 if(totalDistance < INFINITY) {
-                    printCurrentSequence();
+                    printCurrentSequence(vertexNumbers);
                     System.out.print(" = " + totalDistance + "\n");
                 }
             }
@@ -74,9 +64,9 @@ class Graph {
         }
     }
 
-    private void printCurrentSequence() {
+    private void printCurrentSequence(int[] vertexSequence) {
         System.out.print(vertexList[HOME_TOWN].label);
-        for (int vertexNumber : vertexNumbers) {
+        for (int vertexNumber : vertexSequence) {
             System.out.print(vertexList[vertexNumber].label);
         }
         System.out.print(vertexList[HOME_TOWN].label);
@@ -110,7 +100,7 @@ class Graph {
 
     // Copies vertex numbers to int array, this array will be anagrammed.
     // Since we start from home town(A), we'll exclude the starting vertex(A).
-    private void decideTownsToTravel() {
+    private void decideTownsToAnagram() {
         vertexNumbers = new int[numVertices - 1];
         for (int i = 1; i < numVertices; i++) {
             vertexNumbers[i - 1] = i;
