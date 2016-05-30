@@ -53,7 +53,8 @@ class Graph {
                 sequenceCount++;
                 if (totalDistance < INFINITY) {
                     printCurrentSequence();
-                    System.out.print(" = " + totalDistance + "\n");
+                    System.out.println();
+                    //System.out.print(" = " + totalDistance + "\n");
                 }
             }
             rotateVertices(newSize);
