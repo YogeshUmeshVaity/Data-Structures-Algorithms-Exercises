@@ -1,16 +1,13 @@
 class Vertex {
     public char label;
-    public boolean isInTree;
 
     public Vertex(char lab) {
         label = lab;
-        isInTree = false;
     }
 }
 
 class Graph {
-    private static final int HOME_TOWN = 0;
-    private final int MAX_VERTS = 20;
+    private final int MAX_VERTICES = 20;
     private final int INFINITY = 1000000;
     private Vertex vertexList[];
     private int adjacencyMatrix[][];
@@ -21,11 +18,11 @@ class Graph {
     private int vertexNumbers[];
 
     public Graph() {
-        vertexList = new Vertex[MAX_VERTS];
-        adjacencyMatrix = new int[MAX_VERTS][MAX_VERTS];
+        vertexList = new Vertex[MAX_VERTICES];
+        adjacencyMatrix = new int[MAX_VERTICES][MAX_VERTICES];
         numVertices = 0;
-        for (int j = 0; j < MAX_VERTS; j++)
-            for (int k = 0; k < MAX_VERTS; k++)
+        for (int j = 0; j < MAX_VERTICES; j++)
+            for (int k = 0; k < MAX_VERTICES; k++)
                 adjacencyMatrix[j][k] = INFINITY;
     }
 
@@ -40,7 +37,7 @@ class Graph {
 
     public void startJourney() {
         decideTownsToAnagram();
-        doAnagram(numVertices - 1);
+        doAnagram(numVertices);
         System.out.println("Sequences tested : " + sequenceCount);
     }
 
@@ -55,7 +52,7 @@ class Graph {
                 int totalDistance = calculateTotalDistance();
                 sequenceCount++;
                 if (totalDistance < INFINITY) {
-                    printCurrentSequence(vertexNumbers);
+                    printCurrentSequence();
                     System.out.print(" = " + totalDistance + "\n");
                 }
             }
@@ -63,12 +60,11 @@ class Graph {
         }
     }
 
-    private void printCurrentSequence(int[] vertexSequence) {
-        System.out.print(vertexList[HOME_TOWN].label);
-        for (int vertexNumber : vertexSequence) {
+    private void printCurrentSequence() {
+        for (int vertexNumber : vertexNumbers) {
             System.out.print(vertexList[vertexNumber].label);
         }
-        System.out.print(vertexList[HOME_TOWN].label);
+        System.out.print(vertexList[vertexNumbers[0]].label);
     }
 
     // Calculates the total distance between current series of towns.
@@ -80,11 +76,8 @@ class Graph {
             total += adjacencyMatrix[vertexNumbers[i]][vertexNumbers[i + 1]];
         }
 
-        // Add the distance from first vertex to anagrammed vertices total distance.
-        total += adjacencyMatrix[HOME_TOWN][vertexNumbers[0]];
-
         // Add the distance from first vertex to last vertex
-        total += adjacencyMatrix[vertexNumbers[vertexNumbers.length - 1]][HOME_TOWN];
+        total += adjacencyMatrix[vertexNumbers[vertexNumbers.length - 1]][vertexNumbers[0]];
         return total;
     }
 
@@ -100,9 +93,9 @@ class Graph {
     // Copies vertex numbers to int array, this array will be anagrammed.
     // Since we start from home town(A), we'll exclude the starting vertex(A).
     private void decideTownsToAnagram() {
-        vertexNumbers = new int[numVertices - 1];
-        for (int i = 1; i < numVertices; i++) {
-            vertexNumbers[i - 1] = i;
+        vertexNumbers = new int[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            vertexNumbers[i] = i;
         }
     }
 
